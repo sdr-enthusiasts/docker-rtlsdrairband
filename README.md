@@ -8,6 +8,12 @@ No ENV variables
 
 Needs one volume mounted in the container at `/usr/local/etc/` which has the `rtl_airband.conf` file.
 
+Needs an icecast server to receive the audio stream.
+
+Built only for arm64 right now; I will figure out how to do multi-arch soon.
+
+`docker pull fredclausen/rtlsdrairband:latest`
+
 Example rtl_airband.conf
 
 ```
@@ -19,6 +25,7 @@ devices: (
     gain = 25;
     centerfreq = 120000000;
     correction = 80;
+    serial="00013475"
     mode = "scan";
     channels:
     (
