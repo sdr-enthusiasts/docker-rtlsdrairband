@@ -1,7 +1,18 @@
 FROM debian:stable-slim
 
 ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
-    S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+    S6_BEHAVIOUR_IF_STAGE2_FAILS= \
+    ## Icecast
+    ICECAST_SOURCE_PASSWORD="rtlsdrairband" \
+    ICECAST_RELAY_PASSWORD="rtlsdrairband" \
+    ICECAST_ADMIN_PASSWORD="rtlsdrairband" \
+    ICECAST_ADMIN_USERNAME="admin" \
+    ICECAST_ADMIN_EMAIL="test@test.com" \
+    ICECAST_LOCATION="earth" \
+    ICECAST_HOSTNAME="localhost" \
+    ICECAST_MAX_CLIENTS="100" \
+    ICECAST_MAX_SOURCES="4"
+
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -44,6 +55,7 @@ RUN set -x && \
         ${KEPT_PACKAGES[@]} \
         ${TEMP_PACKAGES[@]} \
         && \
+    # icecast install
     sh -c "echo deb-src http://download.opensuse.org/repositories/multimedia:/xiph/Debian_9.0/ ./ >>/etc/apt/sources.list.d/icecast.list" && \
     wget -qO - http://icecast.org/multimedia-obs.key | apt-key add - && \
     KEPT_PACKAGES+=(icecast2) && \
@@ -52,12 +64,6 @@ RUN set -x && \
         ${KEPT_PACKAGES[@]} \
         ${TEMP_PACKAGES[@]} \
         && \
-    # icecast
-    #git clone --recursive git://github.com/xiph/Icecast-Server.git /src/icecast && \
-    #pushd /src/icecast && \
-    #./configure && \
-    #make && \
-    #make install && \
     # rtl-sdr
     git clone git://git.osmocom.org/rtl-sdr.git /src/rtl-sdr && \
     pushd /src/rtl-sdr && \
@@ -79,18 +85,6 @@ RUN set -x && \
     make PLATFORM=armv8-generic && \
     make install && \
     popd && \
-    # User for icecast2 to run
-    #addgroup --system --gid 1000 icecast && \
-#    useradd \
-#      --uid 1000 \
-#      --system \
-#      --home-dir /usr/share/icecast \
-#      --no-create-home \
-#      --no-user-group \
-#      --gid icecast \
-#      icecast \
-#      && \
-    #mkdir -p /usr/local/icecast2/web && \
     mkdir -p /etc/icecast2/logs && \
     chown -R icecast2 /etc/icecast2; \
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \

@@ -1,0 +1,56 @@
+#!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+
+if [ -z "${ICECAST_SOURCE_PASSWORD}" ]; then
+	echo "Source password not set. Using default"
+else
+    sed -i "s/<source-password>[^<]*<\/source-password>/<source-password>$ICECAST_SOURCE_PASSWORD<\/source-password>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_RELAY_PASSWORD}" ]; then
+	echo "Relay password not set. Using default"
+else
+    sed -i "s/<relay-password>[^<]*<\/relay-password>/<relay-password>$ICECAST_RELAY_PASSWORD<\/relay-password>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_ADMIN_PASSWORD}" ]; then
+	echo "Admin password not set. Using default"
+else
+    sed -i "s/<admin-password>[^<]*<\/admin-password>/<admin-password>$ICECAST_ADMIN_PASSWORD<\/admin-password>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_ADMIN_USERNAME}" ]; then
+	echo "Admin username not set. Using default"
+else
+    sed -i "s/<admin-user>[^<]*<\/admin-user>/<admin-user>$ICECAST_ADMIN_USERNAME<\/admin-user>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_ADMIN_EMAIL}" ]; then
+	echo "Admin email not set. Using default"
+else
+    sed -i "s/<admin>[^<]*<\/admin>/<admin>$ICECAST_ADMIN_EMAIL<\/admin>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_LOCATION}" ]; then
+	echo "Location not set. Using default"
+else
+    sed -i "s/<location>[^<]*<\/location>/<location>$ICECAST_LOCATION<\/location>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_HOSTNAME}" ]; then
+	echo "Hostname not set. Using default"
+else
+    sed -i "s/<hostname>[^<]*<\/hostname>/<hostname>$ICECAST_HOSTNAME<\/hostname>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_MAX_CLIENTS}" ]; then
+	echo "Max clients not set. Using default"
+else
+    sed -i "s/<clients>[^<]*<\/clients>/<clients>$ICECAST_MAX_CLIENTS<\/clients>/g" /usr/local/etc/icecast.xml
+fi
+
+if [ -z "${ICECAST_MAX_SOURCES}" ]; then
+	echo "Max sources not set. Using default"
+else
+    sed -i "s/<sources>[^<]*<\/sources>/<sources>$ICECAST_MAX_SOURCES<\/sources>/g" /usr/local/etc/icecast.xml
+fi
