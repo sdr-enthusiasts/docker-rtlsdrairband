@@ -37,6 +37,7 @@ RUN set -x && \
     TEMP_PACKAGES+=(libxml2-dev) && \
     KEPT_PACKAGES+=(libxslt1.1) && \
     TEMP_PACKAGES+=(libxslt1-dev) && \
+    KEPT_PACKAGES+=(bash) && \
     # set up icecast to be installed
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -78,6 +79,20 @@ RUN set -x && \
     make PLATFORM=armv8-generic && \
     make install && \
     popd && \
+    # User for icecast2 to run
+    #addgroup --system --gid 1000 icecast && \
+#    useradd \
+#      --uid 1000 \
+#      --system \
+#      --home-dir /usr/share/icecast \
+#      --no-create-home \
+#      --no-user-group \
+#      --gid icecast \
+#      icecast \
+#      && \
+    #mkdir -p /usr/local/icecast2/web && \
+    mkdir -p /etc/icecast2/logs && \
+    chown -R icecast2 /etc/icecast2; \
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
@@ -88,5 +103,5 @@ COPY rootfs/ /
 ENTRYPOINT [ "/init" ]
 
 # Specify location of rrd files as volume
-VOLUME [ "/usr/local/etc/" ]
+#VOLUME [ "/usr/local/etc/" ]
 EXPOSE 8000
