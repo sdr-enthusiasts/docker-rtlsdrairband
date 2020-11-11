@@ -91,13 +91,7 @@ RUN set -x && \
     make -Wstringop-truncation install && \
     cp -v /src/rtl-sdr/rtl-sdr.rules /etc/udev/rules.d/ && \
     popd && popd && \
-    git clone git://github.com/szpajder/RTLSDR-Airband.git /src/rtlsdr-airband && \
-    pushd /src/rtlsdr-airband && \
-    git checkout master && \
-    mkdir -p /src/rtlsdr-airband/build && \
-    make PLATFORM=armv8-generic && \
-    make install && \
-    popd && \
+    curl -s https://raw.githubusercontent.com/fredclausen/docker-rtlsdrairband/main/Install%20Scripts/rtlsdr-airband-deploy.sh | sh && \
     mkdir -p /etc/icecast2/logs && \
     chown -R icecast2 /etc/icecast2; \
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
