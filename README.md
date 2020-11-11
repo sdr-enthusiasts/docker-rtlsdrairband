@@ -1,6 +1,6 @@
 # docker-rtlsdrairband
 
-Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64` and `amd64` (see below).
+Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64` built for but not tested on `amd64` (see below).
 
 This container runs an Icecast audio server that RTLSDR-Airband can connect to so that you can use an RTLSDR dongle to listen to Air Traffic Control VHF radio communications via a web browser or audio playback program.
 
@@ -13,7 +13,7 @@ This container runs an Icecast audio server that RTLSDR-Airband can connect to s
 
 Currently, this image should pull and run on the following architectures:
 
-* `amd64`: Linux x86-64
+* `amd64`: Linux x86-64 (Builds, untested. If it works for you let me know!)
 * `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (COMING SOON)
 * `arm64`: ARMv8 64-bit (RPi 4 64-bit OSes)
 
@@ -83,7 +83,7 @@ There are quite a few configuration options this container can accept.
 | STATION1_FREQS| If you are setting `multichannel` for your mode, enter a single frequency. If you are setting mode as `scan`, enter a comma separated list of frequencies you want to scan. Full formatting of the numbers can be found [here](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuring-channels-for-multichannel-mode) | Yes | Unset |
 | STATION1_NAME | The name of your stream | No | Tower |
 | STATION1_GENRE | The genre of your stream | No | ATC |
-| STATION1_MOUNTPOINT | The custom part of the stream URL. Streams will be accesable at "serverip:8000/STATION1_MOUNTPOINT.m3u" | No | GND.mp3 |
+| STATION1_MOUNTPOINT | The custom part of the stream URL. Streams will be accessable at "serverip:8000/STATION1_MOUNTPOINT.m3u" | No | GND.mp3 |
 
 ## Accessing the Web Interface
 
@@ -93,6 +93,7 @@ The web interface for the container can be found at `containerip:8000`
 
 * Multiarch support
 * More than one stream from the container
+* Disable Icecast if desired and allow connections to a remote Icecast server
 
 
 ## Logging
