@@ -89,7 +89,7 @@ fi
 
 
 # If we don't have an architecture at this point, there's been a problem and we can't continue
-if [ -z "${S6OVERLAY_ARCH}" ]; then
+if [ -z "${ARCH}" ]; then
   echo "[$APPNAME] ERROR: Unable to determine architecture or unsupported architecture!"
   exit 1
 fi
