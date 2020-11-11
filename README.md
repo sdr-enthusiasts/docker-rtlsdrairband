@@ -63,7 +63,7 @@ There are quite a few configuration options this container can accept.
 
 | Variable | Description | Required | Default |
 |----------|-------------|---------|--------|
-| ICECAST_ADMIN_PASSWORD | The password used to log in to the admin interface. | No | rtlsdrairband" |
+| ICECAST_ADMIN_PASSWORD | The password used to log in to the admin interface. | No | rtlsdrairband |
 | ICECAST_ADMIN_USERNAME | The username used to log in to the admin interface | No | admin
 | ICECAST_ADMIN_EMAIL | Admin email shown in the web interface. | No | test@test.com |
 | ICECAST_LOCATION | Location of server | No | earth |
