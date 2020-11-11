@@ -83,7 +83,7 @@ elif [ "$ARCH" = "armhf" ]; then
   echo "Building rtlsdr-airband for ARM32"
   make PLATFORM="armv7-generic"
 else
-  echo "No supported platforms for rtlsdr-airband found."
+  echo "[$APPNAME] No supported platforms for rtlsdr-airband found."
   exit 1
 fi
 
