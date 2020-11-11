@@ -1,6 +1,6 @@
 # docker-rtlsdrairband
 
-Docker container to run [RTLSDR-Airban](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`(see below).
+Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`(see below).
 
 This container runs an Icecast audio server that RTLSDR-Airband can connect to so that you can use an RTLSDR dongle to listen to Air Traffic Control VHF radio communications via a web browser or audio playback program.
 
@@ -84,6 +84,10 @@ There are quite a few configuration options this container can accept.
 | STATION1_NAME | The name of your stream | No | Tower |
 | STATION1_GENRE | The genre of your stream | No | ATC |
 | STATION1_MOUNTPOINT | The custom part of the stream URL. Streams will be accesable at "serverip:8000/STATION1_MOUNTPOINT.m3u" | No | GND.mp3 |
+
+## Accessing the Web Interface
+
+The web interface for the container can be found at `containerip:8000`
 
 ## TODO
 
