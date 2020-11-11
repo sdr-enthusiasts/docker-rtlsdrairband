@@ -61,8 +61,7 @@ RUN set -x && \
     TEMP_PACKAGES+=(libxml2-dev) && \
     KEPT_PACKAGES+=(libxslt1.1) && \
     TEMP_PACKAGES+=(libxslt1-dev) && \
-    KEPT_PACKAGES+=(bash) && \
-    # set up icecast to be installed
+    # install first round of packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
         ${KEPT_PACKAGES[@]} \
@@ -77,11 +76,11 @@ RUN set -x && \
         ${KEPT_PACKAGES[@]} \
         ${TEMP_PACKAGES[@]} \
         && \
+    mkdir -p /etc/icecast2/logs && \
+    chown -R icecast2 /etc/icecast2; \
     # rtl-sdr
     git clone git://git.osmocom.org/rtl-sdr.git /src/rtl-sdr && \
     pushd /src/rtl-sdr && \
-    #export BRANCH_RTLSDR=$(git tag --sort="-creatordate" | head -1) && \
-    #git checkout "tags/${BRANCH_RTLSDR}" && \
     git checkout "${BRANCH_RTLSDR}" && \
     echo "rtl-sdr ${BRANCH_RTLSDR}" >> /VERSIONS && \
     mkdir -p /src/rtl-sdr/build && \
@@ -91,10 +90,11 @@ RUN set -x && \
     make -Wstringop-truncation install && \
     cp -v /src/rtl-sdr/rtl-sdr.rules /etc/udev/rules.d/ && \
     popd && popd && \
+    # install RTLSDR-Airband
     curl -s https://raw.githubusercontent.com/fredclausen/docker-rtlsdrairband/main/Install%20Scripts/rtlsdr-airband-deploy.sh | sh && \
-    mkdir -p /etc/icecast2/logs && \
-    chown -R icecast2 /etc/icecast2; \
+    # install S6 Overlay
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
+    # Clean up
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
     rm -rf /src/* /tmp/* /var/lib/apt/lists/* 
@@ -103,6 +103,4 @@ COPY rootfs/ /
 
 ENTRYPOINT [ "/init" ]
 
-# Specify location of rrd files as volume
-#VOLUME [ "/usr/local/etc/" ]
 EXPOSE 8000
