@@ -73,7 +73,7 @@ RUN set -x && \
     wget -qO - http://icecast.org/multimedia-obs.key | apt-key add - && \
     KEPT_PACKAGES+=(icecast2) && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes --no-install-recommends \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         ${KEPT_PACKAGES[@]} \
         ${TEMP_PACKAGES[@]} \
         && \

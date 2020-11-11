@@ -79,8 +79,8 @@ elif [ "$ARCH" = "x86" ]; then
 elif [ "$ARCH" = "amd64" ]; then
   echo "Building rtlsdr-airband for x86"
   make PLATFORM="x86"
-elif[ "$ARCH" = "armhf" ]; then
-  echo "Building rtlsdr-airband for arm 32 bit"
+elif [ "$ARCH" = "armhf" ]; then
+  echo "Building rtlsdr-airband for ARM32"
   make PLATFORM="armv7-generic"
 else
   echo "No supported platforms for rtlsdr-airband found."
