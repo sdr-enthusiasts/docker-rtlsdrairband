@@ -82,9 +82,6 @@ else [ "$ARCH" = "amd64" ]; then
 else [ "$ARCH" = "armhf" ]; then
   echo "Building rtlsdr-airband for arm 32 bit"
   make PLATFORM="armv7-generic"
-else
-  echo "No matching arch found!"
-  exit 1
 fi
 
 
