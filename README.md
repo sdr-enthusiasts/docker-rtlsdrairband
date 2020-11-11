@@ -73,7 +73,9 @@ There are quite a few configuration options this container can accept.
 
 ### RTLSDR-Airband
 
-| STATION1_RADIO_TYPE | Type of dongle that is providing the radio tuning. Right now, only rtlsdr is usable. If you n eed something else supported, let me know | No | rtlsdr | 
+| Variable | Description | Required | Default |
+|----------|-------------|---------|--------|
+| STATION1_RADIO_TYPE | Type of dongle that is providing the radio tuning. Right now, only rtlsdr is usable. If you need something else supported, let me know | No | rtlsdr | 
 | STATION1_GAIN | Gain setting for the RTLSDR dongle | No | 25 |
 | STATION1_CORRECTION | Use this if your dongle has a non-zero frequency tuning error, which requires correcting. Put correction value in ppm here. If the dongle tunes too high, this value shall be positive, negative otherwise. | No | 0 |
 | STATION1_SERIAL | Used to have rtlsdr-airband use the correct dongle if more than one present. Enter the serial of the dongle to be used | No | Unset |
