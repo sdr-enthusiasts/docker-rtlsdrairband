@@ -6,6 +6,7 @@ APPNAME="rtlsdr-airband"
 echo "[$APPNAME] deployment started"
 
 #Downloading source
+echo "[$APPNAME] Cloning the git repository"
 git clone git://github.com/szpajder/RTLSDR-Airband.git /src/rtlsdr-airband 
 cd /src/rtlsdr-airband
 git checkout master
@@ -68,7 +69,8 @@ if [ -z "${S6OVERLAY_ARCH}" ]; then
 
 fi
 
-echo "Arch is $ARCH"
+echo "[$APPNAME] Arch is $ARCH"
+echo "[$APPNAME] Attempting to start the build"
 
 if [ "$ARCH" = "aarch64" ]; then
   echo "Building rtlsdr-airband for ARM64"
