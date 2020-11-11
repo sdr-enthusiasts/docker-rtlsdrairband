@@ -6,7 +6,7 @@ set -xe
 REPO=fredclausen
 IMAGE=rtlsdrairband
 PLATFORMS="linux/amd64,linux/arm/v7,linux/arm64"
-#PLATFORMS="linux/amd64,linux/arm64"
+#PLATFORMS="linux/arm/v7"
 
 docker context use x86_64
 export DOCKER_CLI_EXPERIMENTAL="enabled"
@@ -30,3 +30,4 @@ docker buildx build --no-cache -t "${REPO}/${IMAGE}:latest" --compress --push --
 
 # docker context create x86_64 --default-stack-orchestrator=swarm --docker host=unix:///var/run/docker.sock
 # docker buildx create --use --name build --node build --driver-opt network=host
+# docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
