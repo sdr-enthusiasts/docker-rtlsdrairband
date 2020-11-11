@@ -11,7 +11,20 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     ICECAST_LOCATION="earth" \
     ICECAST_HOSTNAME="localhost" \
     ICECAST_MAX_CLIENTS="100" \
-    ICECAST_MAX_SOURCES="4"
+    ICECAST_MAX_SOURCES="4" \
+    ## RTLSDR AirBand
+    STATION1_RADIO_TYPE="rtlsr" \
+    STATION1_GAIN=25 \
+    STATION1_CORRECTION="" \
+    STATION1_MODE="multichannel" \
+    STATION1_FREQS="121.9" \
+    STATION1_SERIAL=""; \
+    STATION1_SERVER="127.0.0.1" \
+    STATION1_MOUNTPOINT="GND.mp3" \
+    STATION1_NAME="Tower" \
+    STATION1_GENRE="ATC" \
+    STATION1_USERNAME="source" \
+    STATION1_PASSWORD="rtlsdrairband"
 
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

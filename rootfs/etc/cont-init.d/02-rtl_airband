@@ -1,0 +1,34 @@
+#!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+
+sed -i "s/type = \"[^<]*\"; # device 1 radio/type = \"$STATION1_RADIO_TYPE\"; # device 1 radio/g" /usr/local/etc/rtl_airband.conf
+sed -i "s/gain = [^<]*; # device 1/gain = $STATION1_GAIN; # device 1/g" /usr/local/etc/rtl_airband.conf
+
+if [ -n "${STATION1_CORRECTION}" ]; then
+	sed -i "s/#correction = [^<]*; # device 1/correction = $STATION1_CORRECTION; # device 1/g" /usr/local/etc/rtl_airband.conf
+fi
+
+sed -i "s/mode = \"[^<]*\"; # device 1/mode = \"$STATION1_MODE\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+
+# rtl_airband.conf for some reason has different config names for multichannel and scan modes
+# fix to get that working
+
+if [ "$STATION1_MODE" = "scan" ]; then
+	sed -i "s/#freqs = ([^<]*); # device 1/freqs = ( $STATION1_FREQS ); # device 1/g" /usr/local/etc/rtl_airband.conf
+else
+	sed -i "s/#freq = [^<]*; # device 1/freq = $STATION1_FREQS; # device 1/g" /usr/local/etc/rtl_airband.conf
+fi
+
+sed -i "s/server = \"[^<]*\"; # device 1/server = \"$STATION1_SERVER\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+sed -i "s/mountpoint = \"[^<]*\"; # device 1/mountpoint = \"$STATION1_MOUNTPOINT\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+sed -i "s/name = \"[^<]*\"; # device 1/name = \"$STATION1_NAME\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+sed -i "s/\\genre = \"[^<]*\"; # device 1/\\genre = \"$STATION1_GENRE\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+sed -i "s/username = \"[^<]*\"; # device 1/username = \"$STATION1_USERNAME\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+sed -i "s/password = \"[^<]*\"; # device 1/password = \"$STATION1_PASSWORD\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+
+# If serial not set, set the index to 0
+if [ -z "${STATION1_SERIAL}" ]; then
+	sed -i "s/#index = \"[^<]*\"; # device 1/index = \"0\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+else
+	sed -i "s/#serial = \"[^<]*\"; # device 1/serial = \"$STATION1_SERIAL\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+fi
