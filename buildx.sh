@@ -15,7 +15,7 @@ docker buildx use homecluster
 docker buildx build --no-cache -t "${REPO}/${IMAGE}:latest" --compress --push --platform "${PLATFORMS}" .
 
 # Build & push version-specific
-docker buildx build -t "${REPO}/${IMAGE}:${VERSION}" --compress --push --platform "${PLATFORMS}" .
+#docker buildx build -t "${REPO}/${IMAGE}:${VERSION}" --compress --push --platform "${PLATFORMS}" .
 
 # BUILD NOHEALTHCHECK VERSION
 # Modify dockerfile to remove healthcheck
