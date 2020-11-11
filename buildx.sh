@@ -26,3 +26,6 @@ docker buildx build --no-cache -t "${REPO}/${IMAGE}:latest" --compress --push --
 
 # # If there are version differences, build & push with a tag matching the build date
 # docker buildx build -f Dockerfile.nohealthcheck -t "${REPO}/${IMAGE}:${VERSION}_nohealthcheck" --compress --push --platform "${PLATFORMS}" .
+
+# docker context create x86_64 --default-stack-orchestrator=swarm --docker host=unix:///var/run/docker.sock
+# docker buildx create --use --name build --node build --driver-opt network=host
