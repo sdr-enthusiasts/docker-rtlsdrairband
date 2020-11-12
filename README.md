@@ -57,7 +57,7 @@ Port 8000 is exposed in this container.
 
 ## Volumes
 
-It is possible to mount `/run/rtlsdir-airband` and provide the container a custom `rtlsdir-airband.conf`. Most users will not want to do this. See [RTLSDR-Advanced Mode](#rtlsdirairband-advanced-mode) for more information.
+It is possible to mount `/run/rtlsdir-airband` and provide the container a custom `rtlsdir-airband.conf`. Most users will not want to do this. See [RTLSDR-Advanced Mode](#rtlsdir-airband-advanced-mode) for more information.
 
 ## Environment variables
 
@@ -67,7 +67,7 @@ There are quite a few configuration options this container can accept.
 
 | Variable | Description | Required | Default |
 |----------|-------------|---------|--------|
-| ICECAST_DISABLE | Set to any value to disable icecast server. You will want to do this if you are streaming to an external icecast server such as liveatc or another server you have set up. If this value is set, you should proceed to [RTLSDR-Advanced Mode](#rtlsdirairband-advanced-mode) as the default RTLSDR-Airband configuration will not connect to external icecast server | No | Unset |
+| ICECAST_DISABLE | Set to any value to disable icecast server. You will want to do this if you are streaming to an external icecast server such as liveatc or another server you have set up. If this value is set, you should proceed to [RTLSDR-Advanced Mode](#rtlsdir-airband-advanced-mode) as the default RTLSDR-Airband configuration will not connect to external icecast server | No | Unset |
 | ICECAST_ADMIN_USERNAME | The username used to log in to the admin interface | No | admin |
 | ICECAST_ADMIN_PASSWORD | The password used to log in to the admin interface. | No | rtlsdrairband |
 | ICECAST_ADMIN_EMAIL | Admin email shown in the web interface. | No | test@test.com |
