@@ -114,10 +114,6 @@ In the mounted volume, provide a file named `rtlsdr-airband.conf` with your conf
 
 The web interface for the container can be found at `containerip:8000`
 
-## TODO
-
-* More than one stream from the container
-* Disable Icecast if desired and allow connections to a remote Icecast server
 
 ## Logging
 
