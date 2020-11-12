@@ -55,6 +55,10 @@ services:
 
 Port 8000 is exposed in this container.
 
+## Volumes
+
+It is possible to mount `/run/rtlsdir-airband` and provide the container a custom `rtlsdir-airband.conf`. Most users will not want to do this. See [RTLSDR-Advanced Mode](#rtlsdirairband-advanced-mode) for more information.
+
 ## Environment variables
 
 There are quite a few configuration options this container can accept. 
@@ -91,16 +95,22 @@ See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/
 Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.| No | Not set |
 | STATION1_MOUNTPOINT | The custom part of the stream URL. Streams will be accessable at "serverip:8000/STATION1_MOUNTPOINT" | No | GND.mp3 |
 
+### RTLSDIR-Airband Advanced Mode
+
+If you wish to feed multiple icecast servers from the same source RTLSDR dongle, provide the container with more than one RTLSDR dongle, or set up advanced RTLSDR-Airband options that are not configurable via the ENV variables, mount a volume in to the container at
+
+* `/run/rtlsdr-airband`
+
+And provide a file named `rtlsdr-airband.conf` with your configuration. See [RTLSDR-Airband configuration](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuration-essentials) for details on proper formatting of the file.
+
 ## Accessing the Web Interface
 
 The web interface for the container can be found at `containerip:8000`
 
 ## TODO
 
-* Multiarch support
 * More than one stream from the container
 * Disable Icecast if desired and allow connections to a remote Icecast server
-
 
 ## Logging
 
