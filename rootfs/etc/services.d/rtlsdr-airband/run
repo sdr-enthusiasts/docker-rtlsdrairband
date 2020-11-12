@@ -2,4 +2,4 @@
 #shellcheck shell=bash
 
 echo "Starting RTLSDR-Airband"
-s6-setuidgid root /usr/local/bin/rtl_airband -c /run/rtlsdr-airband/rtlsdr_airband.conf
+s6-setuidgid root /usr/local/bin/rtl_airband -c /run/rtlsdr-airband/rtl_airband.conf
