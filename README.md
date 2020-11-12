@@ -67,8 +67,9 @@ There are quite a few configuration options this container can accept.
 
 | Variable | Description | Required | Default |
 |----------|-------------|---------|--------|
+| ICECAST_DISABLE | Set to any value to disable icecast server. You will want to do this if you are streaming to an external icecast server such as liveatc or another server you have set up. If this value is set, you should proceed to [RTLSDR-Advanced Mode](#rtlsdirairband-advanced-mode) as the default RTLSDR-Airband configuration will not connect to external icecast server | No | Unset |
+| ICECAST_ADMIN_USERNAME | The username used to log in to the admin interface | No | admin |
 | ICECAST_ADMIN_PASSWORD | The password used to log in to the admin interface. | No | rtlsdrairband |
-| ICECAST_ADMIN_USERNAME | The username used to log in to the admin interface | No | admin
 | ICECAST_ADMIN_EMAIL | Admin email shown in the web interface. | No | test@test.com |
 | ICECAST_LOCATION | Location of server | No | earth |
 | ICECAST_HOSTNAME | The hostname or IP used to reach the icecast server. Used to show correct URLs for the streams on the web interface | No | localhost |
