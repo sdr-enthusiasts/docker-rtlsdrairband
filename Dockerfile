@@ -80,17 +80,6 @@ RUN set -x && \
         && \
     mkdir -p /etc/icecast2/logs && \
     chown -R icecast2 /etc/icecast2; \
-    # rtl-sdr
-    git clone git://git.osmocom.org/rtl-sdr.git /src/rtl-sdr && \
-    pushd /src/rtl-sdr && \
-    git checkout "${BRANCH_RTLSDR}" && \
-    echo "rtl-sdr ${BRANCH_RTLSDR}" >> /VERSIONS && \
-    mkdir -p /src/rtl-sdr/build && \
-    pushd /src/rtl-sdr/build && \
-    cmake ../ -DINSTALL_UDEV_RULES=ON -Wno-dev && \
-    make -Wstringop-truncation && \
-    make -Wstringop-truncation install && \
-    cp -v /src/rtl-sdr/rtl-sdr.rules /etc/udev/rules.d/ && \
     popd && popd && \
     # install RTLSDR-Airband
     curl -s https://raw.githubusercontent.com/fredclausen/docker-rtlsdrairband/main/Install%20Scripts/rtlsdr-airband-deploy.sh | sh && \
