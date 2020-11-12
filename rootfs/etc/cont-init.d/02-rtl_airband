@@ -8,6 +8,14 @@ if [ -n "${STATION1_CORRECTION}" ]; then
 	sed -i "s/#correction = [^<]*; # device 1/correction = $STATION1_CORRECTION; # device 1/g" /usr/local/etc/rtl_airband.conf
 fi
 
+if [ -n "${STATION1_LABELS}" ]; then
+	sed -i "s/#labels = [^<]*; # device 1/labels = $STATION1_LABELS; # device 1/g" /usr/local/etc/rtl_airband.conf
+
+
+if [ -n "${STATION1_SHOWMETADATA}" ]; then
+	sed -i "s/send_scan_freq_tags = true; # device 1/#send_scan_freq_tags = true; # device 1/g" /usr/local/etc/rtl_airband.conf
+fi
+
 sed -i "s/mode = \"[^<]*\"; # device 1/mode = \"$STATION1_MODE\"; # device 1/g" /usr/local/etc/rtl_airband.conf
 
 # rtl_airband.conf for some reason has different config names for multichannel and scan modes

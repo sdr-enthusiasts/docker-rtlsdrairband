@@ -24,7 +24,9 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     STATION1_NAME="Tower" \
     STATION1_GENRE="ATC" \
     STATION1_USERNAME="source" \
-    STATION1_PASSWORD="rtlsdrairband"
+    STATION1_PASSWORD="rtlsdrairband" \
+    STATION1_LABELS="" \
+    STATION1_SHOWMETADATA=""
 
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
