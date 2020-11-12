@@ -80,7 +80,6 @@ RUN set -x && \
         && \
     mkdir -p /etc/icecast2/logs && \
     chown -R icecast2 /etc/icecast2; \
-    popd && popd && \
     # install RTLSDR-Airband
     curl -s https://raw.githubusercontent.com/fredclausen/docker-rtlsdrairband/main/Install%20Scripts/rtlsdr-airband-deploy.sh | sh && \
     # install S6 Overlay
