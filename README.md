@@ -1,6 +1,6 @@
 # docker-rtlsdrairband
 
-Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`. A container is provided for, but not tested, `amd64` (see below).
+Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`. A container is provided for, but not tested, `amd64` and `arm32v7` (see below).
 
 This container runs an Icecast audio server that RTLSDR-Airband can connect to so that you can use an RTLSDR dongle to listen to Air Traffic Control VHF radio communications via a web browser or audio playback program.
 
@@ -14,7 +14,7 @@ This container runs an Icecast audio server that RTLSDR-Airband can connect to s
 Currently, this image should pull and run on the following architectures:
 
 * `amd64`: Linux x86-64 (Builds, untested. If it works for you let me know!)
-* `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (COMING SOON)
+* `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (Builds, untested. If it works for you let me know!)
 * `arm64`: ARMv8 64-bit (RPi 4 64-bit OSes)
 
 ## Up-and-Running with `docker run`
@@ -84,7 +84,11 @@ There are quite a few configuration options this container can accept.
 | STATION1_NAME | The name of your stream | No | Tower |
 | STATION1_GENRE | The genre of your stream | No | ATC |
 | STATION1_SHOWMETADATA | If not set, the icecast server will receive updated metadata (either frequency or a specific label) of the frequency that is being received, and will show in playback clients. It might be adventageous to disable this because updated metadata will clutter up the icecast server logs. To disable, set to any value. Not applicable to multichannel mode | No | true |
-| STATION1_LABELS | If STATION1_SHOWMETADATA is set to true, you can set this variable to a comma separated list of labels associated with the frequencies you are listening to. If set, the metadata on the icecast server will be updated to show the label associated with the frequency that is currently being received. If not set, the icecast metadata will be updated with the frequency. See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information. | No | Not set |
+| STATION1_LABELS | If STATION1_SHOWMETADATA is set to true, you can set this variable to a comma separated list of labels associated with the frequencies you are listening to. If set, the metadata on the icecast server will be updated to show the label associated with the frequency that is currently being received. If not set, the icecast metadata will be updated with the frequency. 
+
+See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces. 
+
+Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.| No | Not set |
 | STATION1_MOUNTPOINT | The custom part of the stream URL. Streams will be accessable at "serverip:8000/STATION1_MOUNTPOINT" | No | GND.mp3 |
 
 ## Accessing the Web Interface

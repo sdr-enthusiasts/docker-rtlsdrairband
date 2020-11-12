@@ -21,6 +21,11 @@ sed -i "s/mode = \"[^<]*\"; # device 1/mode = \"$STATION1_MODE\"; # device 1/g" 
 # rtl_airband.conf for some reason has different config names for multichannel and scan modes
 # fix to get that working
 
+if [ -z "${STATION1_FREQS}" ]; then
+	echo "Error! Frequency not set. Please set STATION1_FREQS. See https://github.com/fredclausen/docker-rtlsdrairband#rtlsdr-airband for details. Aborting!"
+	exit 1
+fi
+
 if [ "$STATION1_MODE" = "scan" ]; then
 	sed -i "s/#freqs = ([^<]*); # device 1/freqs = ( $STATION1_FREQS ); # device 1/g" /usr/local/etc/rtl_airband.conf
 else
