@@ -63,6 +63,7 @@ RUN set -x && \
     TEMP_PACKAGES+=(libxml2-dev) && \
     KEPT_PACKAGES+=(libxslt1.1) && \
     TEMP_PACKAGES+=(libxslt1-dev) && \
+    KEPT_PACKAGES+=(mime-support) && \
     # install first round of packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
