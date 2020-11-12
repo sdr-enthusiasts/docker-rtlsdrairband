@@ -44,5 +44,5 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 		sed -i "s/#serial = \"[^<]*\"; # device 1/serial = \"$RTLSDRAIRBAND_SERIAL\"; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 else
-	echo "Custom config provided. Ignoring RTLSDIRBAND config options"
+	echo "Custom config provided. Ignoring RTLSDRBAND config options"
 fi
