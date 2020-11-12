@@ -25,12 +25,12 @@ docker run \
  --rm \
  --name rtlsdr-airband \
  -p 8000:8000 \
- -e STATION1_FREQS=123.9 \
+ -e RTLSDRAIRBAND_FREQS=123.9 \
  --device /dev/bus/usb/USB_BUS_NUMBER/USB_DEVICE_NUMBER:/dev/bus/usb/USB_BUS_NUMBER/USB_DEVICE_NUMBER \
 fredclausen/rtlsdrairband
 ```
 
-You should obviously replace `STATION1_FREQS` with a frequency you wish to monitor and the /dev/bus/usb path to your RTLSDR dongle.
+You should obviously replace `RTLSDRAIRBAND_FREQS` with a frequency you wish to monitor and the /dev/bus/usb path to your RTLSDR dongle.
 
 ## Up-and-Running with Docker Compose
 
@@ -48,7 +48,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - STATION1_FREQS=123.9
+      - RTLSDRAIRBAND_FREQS=123.9
 ```
 
 ## Ports
@@ -79,21 +79,21 @@ There are quite a few configuration options this container can accept.
 
 | Variable | Description | Required | Default |
 |----------|-------------|---------|--------|
-| STATION1_RADIO_TYPE | Type of dongle that is providing the radio tuning. Right now, only rtlsdr is usable. If you need something else supported, let me know | No | rtlsdr | 
-| STATION1_GAIN | Gain setting for the RTLSDR dongle | No | 25 |
-| STATION1_CORRECTION | Use this if your dongle has a non-zero frequency tuning error, which requires correcting. Put correction value in ppm here. If the dongle tunes too high, this value shall be positive, negative otherwise. | No | 0 |
-| STATION1_SERIAL | Used to have rtlsdr-airband use the correct dongle if more than one present. Enter the serial of the dongle to be used | No | Unset |
-| STATION1_MODE | If you are tuning a single frequency, set multichannel. If you are tuning more than one, set as scan | No | multichannel |
-| STATION1_FREQS| If you are setting `multichannel` for your mode, enter a single frequency. If you are setting mode as `scan`, enter a comma separated list of frequencies you want to scan. Full formatting of the frequencies can be found [here](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuring-channels-for-multichannel-mode) | Yes | Unset |
-| STATION1_NAME | The name of your stream | No | Tower |
-| STATION1_GENRE | The genre of your stream | No | ATC |
-| STATION1_SHOWMETADATA | If not set, the icecast server will receive updated metadata (either frequency or a specific label) of the frequency that is being received, and will show in playback clients. It might be adventageous to disable this because updated metadata will clutter up the icecast server logs. To disable, set to any value. Not applicable to multichannel mode | No | true |
-| STATION1_LABELS | If STATION1_SHOWMETADATA is set to true, you can set this variable to a comma separated list of labels associated with the frequencies you are listening to. If set, the metadata on the icecast server will be updated to show the label associated with the frequency that is currently being received. If not set, the icecast metadata will be updated with the frequency. 
+| RTLSDRAIRBAND_RADIO_TYPE | Type of dongle that is providing the radio tuning. Right now, only rtlsdr is usable. If you need something else supported, let me know | No | rtlsdr | 
+| RTLSDRAIRBAND_GAIN | Gain setting for the RTLSDR dongle | No | 25 |
+| RTLSDRAIRBAND_CORRECTION | Use this if your dongle has a non-zero frequency tuning error, which requires correcting. Put correction value in ppm here. If the dongle tunes too high, this value shall be positive, negative otherwise. | No | 0 |
+| RTLSDRAIRBAND_SERIAL | Used to have rtlsdr-airband use the correct dongle if more than one present. Enter the serial of the dongle to be used | No | Unset |
+| RTLSDRAIRBAND_MODE | If you are tuning a single frequency, set multichannel. If you are tuning more than one, set as scan | No | multichannel |
+| RTLSDRAIRBAND_FREQS| If you are setting `multichannel` for your mode, enter a single frequency. If you are setting mode as `scan`, enter a comma separated list of frequencies you want to scan. Full formatting of the frequencies can be found [here](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuring-channels-for-multichannel-mode) | Yes | Unset |
+| RTLSDRAIRBAND_NAME | The name of your stream | No | Tower |
+| RTLSDRAIRBAND_GENRE | The genre of your stream | No | ATC |
+| RTLSDRAIRBAND_SHOWMETADATA | If not set, the icecast server will receive updated metadata (either frequency or a specific label) of the frequency that is being received, and will show in playback clients. It might be adventageous to disable this because updated metadata will clutter up the icecast server logs. To disable, set to any value. Not applicable to multichannel mode | No | true |
+| RTLSDRAIRBAND_LABELS | If RTLSDRAIRBAND_SHOWMETADATA is set to true, you can set this variable to a comma separated list of labels associated with the frequencies you are listening to. If set, the metadata on the icecast server will be updated to show the label associated with the frequency that is currently being received. If not set, the icecast metadata will be updated with the frequency. 
 
 See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces. 
 
 Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.| No | Not set |
-| STATION1_MOUNTPOINT | The custom part of the stream URL. Streams will be accessable at "serverip:8000/STATION1_MOUNTPOINT" | No | GND.mp3 |
+| RTLSDRAIRBAND_MOUNTPOINT | The custom part of the stream URL. Streams will be accessable at "serverip:8000/RTLSDRAIRBAND_MOUNTPOINT" | No | GND.mp3 |
 
 ### RTLSDIR-Airband Advanced Mode
 
@@ -101,7 +101,13 @@ If you wish to feed multiple icecast servers from the same source RTLSDR dongle,
 
 * `/run/rtlsdr-airband`
 
-And provide a file named `rtlsdr-airband.conf` with your configuration. See [RTLSDR-Airband configuration](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuration-essentials) for details on proper formatting of the file.
+And set the following ENV variable to any value
+
+* `RTLSDRAIRBAND_CUSTOMCONFIG`
+
+When that value is set, all RTLSDRAIRBAND_* configuration values are ignored and your custom provided `rtlsdr-airband.conf` will be used.
+
+In the mounted volume, provide a file named `rtlsdr-airband.conf` with your configuration. See [RTLSDR-Airband configuration](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuration-essentials) for details on proper formatting of the file.
 
 ## Accessing the Web Interface
 
