@@ -17,6 +17,10 @@ Currently, this image should pull and run on the following architectures:
 * `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (Builds, untested. If it works for you let me know!)
 * `arm64`: ARMv8 64-bit (RPi 4 64-bit OSes)
 
+## Thanks
+
+Thanks to [mikenye](https://github.com/mikenye) for his excellent ADSB docker containers, from which I shamelessly copied a lot of the ideas for setting up the docker container, as well as his excellent advice and help in getting this thing working.
+
 ## Up-and-Running with `docker run`
 
 ```shell
