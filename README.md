@@ -19,7 +19,7 @@ Currently, this image should pull and run on the following architectures:
 
 ## Thanks
 
-Thanks to [mikenye](https://github.com/mikenye) for his excellent ADSB docker containers, from which I shamelessly copied a lot of the ideas for setting up the docker container, as well as his excellent advice and help in getting this thing working.
+Thanks to [mikenye](https://github.com/mikenye) for his excellent ADSB docker containers from which I shamelessly copied a lot of the ideas for setting up the docker container, as well as his excellent advice and help in getting this thing working.
 
 ## Up-and-Running with `docker run`
 
