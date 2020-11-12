@@ -10,7 +10,7 @@ fi
 
 if [ -n "${STATION1_LABELS}" ]; then
 	sed -i "s/#labels = [^<]*; # device 1/labels = $STATION1_LABELS; # device 1/g" /usr/local/etc/rtl_airband.conf
-
+fi
 
 if [ -n "${STATION1_SHOWMETADATA}" ]; then
 	sed -i "s/send_scan_freq_tags = true; # device 1/#send_scan_freq_tags = true; # device 1/g" /usr/local/etc/rtl_airband.conf
