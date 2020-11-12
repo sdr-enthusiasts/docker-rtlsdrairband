@@ -30,11 +30,11 @@ docker run \
  --name rtlsdr-airband \
  -p 8000:8000 \
  -e RTLSDRAIRBAND_FREQS=123.9 \
- --device /dev/bus/usb/USB_BUS_NUMBER/USB_DEVICE_NUMBER:/dev/bus/usb/USB_BUS_NUMBER/USB_DEVICE_NUMBER \
+ --device /dev/bus/usb:/dev/bus/usb \
 fredclausen/rtlsdrairband
 ```
 
-You should obviously replace `RTLSDRAIRBAND_FREQS` with a frequency you wish to monitor and the /dev/bus/usb path to your RTLSDR dongle.
+You should obviously replace `RTLSDRAIRBAND_FREQS` with a frequency you wish to monitor.
 
 ## Up-and-Running with Docker Compose
 
@@ -48,9 +48,9 @@ services:
     container_name: rtlsdrairband
     restart: always
     devices:
-      - /dev/bus/usb/001/007:/dev/bus/usb/001/007
+      - /dev/bus/usb:/dev/bus/usb
     ports:
-      - 8080:8080
+      - 8000:8000
     environment:
       - RTLSDRAIRBAND_FREQS=123.9
 ```
@@ -98,7 +98,7 @@ There are quite a few configuration options this container can accept.
 
 * See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces. 
 
-Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.
+Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.
 
 ### RTLSDIR-Airband Advanced Mode
 
