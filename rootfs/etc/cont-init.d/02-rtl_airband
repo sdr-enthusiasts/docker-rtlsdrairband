@@ -46,3 +46,5 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 else
 	echo "Custom config provided. Ignoring RTLSDRBAND config options"
 fi
+
+exit 0

@@ -7,3 +7,5 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 else
 	echo "Icecast disabled"
 fi
+
+exit 0

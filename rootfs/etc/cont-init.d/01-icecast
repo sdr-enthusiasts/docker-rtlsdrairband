@@ -44,3 +44,5 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 	    sed -i "s/<sources>[^<]*<\/sources>/<sources>$ICECAST_MAX_SOURCES<\/sources>/g" /usr/local/etc/icecast.xml
 	fi
 fi
+
+exit 0
