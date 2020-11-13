@@ -61,7 +61,7 @@ Port 8000 is exposed in this container.
 
 ## Volumes
 
-It is possible to mount `/run/rtlsdir-airband` and provide the container a custom `rtlsdir-airband.conf`. Most users will not want to do this. See [RTLSDR-Advanced Mode](#rtlsdir-airband-advanced-mode) for more information.
+It is possible to mount `/run/rtlsdir-airband` and provide the container a custom `rtlsdir-airband.conf` or `icecast.xml`. Most users will not want to do this. See [RTLSDR-Advanced Mode](#rtlsdir-airband-advanced-mode) and/or [Icecast Advanced Mode](#icecast-advanced-mode) for more information.
 
 ## Environment variables
 
@@ -115,10 +115,23 @@ When that value is set, all RTLSDRAIRBAND_* configuration values are ignored and
 
 In the mounted volume, provide a file named `rtlsdr-airband.conf` with your configuration. See [RTLSDR-Airband configuration](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuration-essentials) for details on proper formatting of the file.
 
+### Icecast Advanced Mode
+
+Icecast has many advanced options that can be set beyond the provided ENV variables. If you wish to do so, mount a volume at
+
+* `/run/rtlsdr-airband`
+
+And set the following ENV variable to any value
+
+* `ICECAST_CUSTOMCONFIG`
+
+When that value is set, all ICECAST_* configuration values are ignored and your custom provided `icecast.xml` will be used.
+
+In the mounted volume, provide a file named `icecast.xml` with your configuration. See the [icecast documentation]](https://icecast.org/docs/) for details on proper formatting of the file.
+
 ## Accessing the Web Interface
 
 The web interface for the container can be found at `containerip:8000`
-
 
 ## Logging
 
