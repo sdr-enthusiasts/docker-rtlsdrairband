@@ -127,7 +127,7 @@ And set the following ENV variable to any value
 
 When that value is set, all ICECAST_* configuration values are ignored and your custom provided `icecast.xml` will be used.
 
-In the mounted volume, provide a file named `icecast.xml` with your configuration. See the [icecast documentation]](https://icecast.org/docs/) for details on proper formatting of the file.
+In the mounted volume, provide a file named `icecast.xml` with your configuration. See the [icecast documentation](https://icecast.org/docs/) for details on proper formatting of the file.
 
 ## Accessing the Web Interface
 
