@@ -2,22 +2,22 @@
 # shellcheck shell=sh
 
 if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
-	sed -i "s/type = \"[^<]*\"; # device 1 radio/type = \"$RTLSDRAIRBAND_RADIO_TYPE\"; # device 1 radio/g" /run/rtlsdr-airband/rtl_airband.conf
-	sed -i "s/gain = [^<]*; # device 1/gain = $RTLSDRAIRBAND_GAIN; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+	sed -i "s/type = \"[^<]*\"; # device 1 radio/type = \"$RTLSDRAIRBAND_RADIO_TYPE\"; # device 1 radio/g" /usr/local/etc/rtl_airband.conf
+	sed -i "s/gain = [^<]*; # device 1/gain = $RTLSDRAIRBAND_GAIN; # device 1/g" /usr/local/etc/rtl_airband.conf
 
 	if [ -n "${RTLSDRAIRBAND_CORRECTION}" ]; then
-		sed -i "s/#correction = [^<]*; # device 1/correction = $RTLSDRAIRBAND_CORRECTION; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+		sed -i "s/#correction = [^<]*; # device 1/correction = $RTLSDRAIRBAND_CORRECTION; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 
 	if [ -n "${RTLSDRAIRBAND_LABELS}" ]; then
-		sed -i "s/#labels = ([^<]*); # device 1/labels = ( $RTLSDRAIRBAND_LABELS ); # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+		sed -i "s/#labels = ([^<]*); # device 1/labels = ( $RTLSDRAIRBAND_LABELS ); # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 
 	if [ -n "${RTLSDRAIRBAND_SHOWMETADATA}" ]; then
-		sed -i "s/send_scan_freq_tags = true; # device 1/#send_scan_freq_tags = true; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+		sed -i "s/send_scan_freq_tags = true; # device 1/#send_scan_freq_tags = true; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 
-	sed -i "s/mode = \"[^<]*\"; # device 1/mode = \"$RTLSDRAIRBAND_MODE\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+	sed -i "s/mode = \"[^<]*\"; # device 1/mode = \"$RTLSDRAIRBAND_MODE\"; # device 1/g" /usr/local/etc/rtl_airband.conf
 
 	# rtl_airband.conf for some reason has different config names for multichannel and scan modes
 	# fix to get that working
@@ -28,21 +28,21 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	fi
 
 	if [ "$RTLSDRAIRBAND_MODE" = "scan" ]; then
-		sed -i "s/#freqs = ([^<]*); # device 1/freqs = ( $RTLSDRAIRBAND_FREQS ); # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+		sed -i "s/#freqs = ([^<]*); # device 1/freqs = ( $RTLSDRAIRBAND_FREQS ); # device 1/g" /usr/local/etc/rtl_airband.conf
 	else
-		sed -i "s/#freq = [^<]*; # device 1/freq = $RTLSDRAIRBAND_FREQS; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+		sed -i "s/#freq = [^<]*; # device 1/freq = $RTLSDRAIRBAND_FREQS; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 
-	sed -i "s/mountpoint = \"[^<]*\"; # device 1/mountpoint = \"$RTLSDRAIRBAND_MOUNTPOINT\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
-	sed -i "s/name = \"[^<]*\"; # device 1/name = \"$RTLSDRAIRBAND_NAME\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
-	sed -i "s/\\genre = \"[^<]*\"; # device 1/\\genre = \"$RTLSDRAIRBAND_GENRE\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
-	sed -i "s/description = \"[^<]*\"; # device 1/descrption = \"$RTLSDRAIRBAND_DESCRIPTION\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+	sed -i "s/mountpoint = \"[^<]*\"; # device 1/mountpoint = \"$RTLSDRAIRBAND_MOUNTPOINT\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+	sed -i "s/name = \"[^<]*\"; # device 1/name = \"$RTLSDRAIRBAND_NAME\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+	sed -i "s/\\genre = \"[^<]*\"; # device 1/\\genre = \"$RTLSDRAIRBAND_GENRE\"; # device 1/g" /usr/local/etc/rtl_airband.conf
+	sed -i "s/description = \"[^<]*\"; # device 1/descrption = \"$RTLSDRAIRBAND_DESCRIPTION\"; # device 1/g" /usr/local/etc/rtl_airband.conf
 
 	# If serial not set, set the index to 0
 	if [ -z "${RTLSDRAIRBAND_SERIAL}" ]; then
-		sed -i "s/#index = \"[^<]*\"; # device 1/index = \"0\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+		sed -i "s/#index = \"[^<]*\"; # device 1/index = \"0\"; # device 1/g" /usr/local/etc/rtl_airband.conf
 	else
-		sed -i "s/#serial = \"[^<]*\"; # device 1/serial = \"$RTLSDRAIRBAND_SERIAL\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
+		sed -i "s/#serial = \"[^<]*\"; # device 1/serial = \"$RTLSDRAIRBAND_SERIAL\"; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 else
 	if [ -f "/run/rtlsdr-airband/rtl_airband.conf" ]; then

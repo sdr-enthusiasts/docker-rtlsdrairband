@@ -1,4 +1,8 @@
 #!/usr/bin/with-contenv bash
 #shellcheck shell=bash
 
-s6-setuidgid root /usr/local/bin/rtl_airband -c /run/rtlsdr-airband/rtl_airband.conf
+if [ -n "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
+	s6-setuidgid root /usr/local/bin/rtl_airband -c /run/rtlsdr-airband/rtl_airband.conf
+else 
+	s6-setuidgid root /usr/local/bin/rtl_airband -c /usr/local/etc/rtl_airband.conf
+fi
