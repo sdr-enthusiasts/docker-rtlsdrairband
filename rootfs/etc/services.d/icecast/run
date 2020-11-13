@@ -3,7 +3,12 @@
 
 if [ -z "${ICECAST_DISABLE}" ]; then
 	echo "Starting Icecast"
-	s6-setuidgid icecast2 icecast2 -c /usr/local/etc/icecast.xml
+
+	if [ -n "$ICECAST_CUSTOMCONFIG" ]; then
+		s6-setuidgid icecast2 icecast2 -c /run/rtlsdr-airband/icecast.xml
+	else 
+		s6-setuidgid icecast2 icecast2 -c /usr/local/etc/icecast.xml
+	fi
 else
 	echo "Icecast disabled"
 fi

@@ -46,9 +46,9 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	fi
 else
 	if [ -f "/run/rtlsdr-airband/rtl_airband.conf" ]; then
-		echo "Custom config provided. Ignoring RTLSDRBAND config options"
+		echo "rtlsdr-airband custom config provided. Ignoring RTLSDRBAND config options"
 	else
-		echo "Custom config option set but file not found. Aborting."
+		echo "rtlsdr-airband custom config option set but file not found. Aborting."
 		exit 1
 	fi
 fi
