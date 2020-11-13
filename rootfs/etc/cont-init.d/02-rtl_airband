@@ -45,7 +45,12 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 		sed -i "s/#serial = \"[^<]*\"; # device 1/serial = \"$RTLSDRAIRBAND_SERIAL\"; # device 1/g" /run/rtlsdr-airband/rtl_airband.conf
 	fi
 else
-	echo "Custom config provided. Ignoring RTLSDRBAND config options"
+	if [ -f "/run/rtlsdr-airband/rtl_airband.conf" ]; then
+		echo "Custom config provided. Ignoring RTLSDRBAND config options"
+	else
+		echo "Custom config option set but file not found. Aborting."
+		exit 1
+	fi
 fi
 
 exit 0
