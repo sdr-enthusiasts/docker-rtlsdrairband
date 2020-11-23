@@ -2,7 +2,10 @@
 #shellcheck shell=bash
 
 if [ -n "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
-	s6-setuidgid root /usr/local/bin/rtl_airband -c /run/rtlsdr-airband/rtl_airband.conf
+	s6-setuidgid root /usr/local/bin/rtl_airband -c /run/rtlsdr-airband/rtl_airband.conf 2>&1 \
+		| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 else 
 	s6-setuidgid root /usr/local/bin/rtl_airband -c /usr/local/etc/rtl_airband.conf
+	 2>&1 \
+		| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 fi

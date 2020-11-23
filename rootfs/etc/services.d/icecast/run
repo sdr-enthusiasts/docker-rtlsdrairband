@@ -5,12 +5,14 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 	echo "Starting Icecast"
 
 	if [ -n "$ICECAST_CUSTOMCONFIG" ]; then
-		s6-setuidgid icecast2 icecast2 -c /run/rtlsdr-airband/icecast.xml
+		s6-setuidgid icecast2 icecast2 -c /run/rtlsdr-airband/icecast.xml  2>&1 \
+		| stdbuf -o0 awk '{print "[icecast] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 	else 
-		s6-setuidgid icecast2 icecast2 -c /usr/local/etc/icecast.xml
+		s6-setuidgid icecast2 icecast2 -c /usr/local/etc/icecast.xml 2>&1 \
+		| stdbuf -o0 awk '{print "[icecast] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 	fi
 else
-	echo "Icecast disabled"
+	sleep 86400
 fi
 
 exit 0

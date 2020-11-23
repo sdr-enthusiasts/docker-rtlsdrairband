@@ -41,6 +41,8 @@ RUN set -x && \
     TEMP_PACKAGES+=(automake) && \
     TEMP_PACKAGES+=(autoconf) && \
     TEMP_PACKAGES+=(wget) && \
+    # logging
+    KEPT_PACKAGES+=(gawk) && \
     # required for S6 overlay
     TEMP_PACKAGES+=(gnupg2) && \
     TEMP_PACKAGES+=(file) && \
