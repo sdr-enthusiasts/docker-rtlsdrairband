@@ -69,6 +69,12 @@ if [ -z "${S6OVERLAY_ARCH}" ]; then
 
 fi
 
+# If we don't have an architecture at this point, there's been a problem and we can't continue
+if [ -z "${ARCH}" ]; then
+  echo "[$APPNAME] ERROR: Unable to determine architecture or unsupported architecture!"
+  exit 1
+fi
+
 echo "[$APPNAME] Arch is $ARCH"
 echo "[$APPNAME] Attempting to start the build"
 
@@ -86,13 +92,6 @@ elif [ "$ARCH" = "armhf" ]; then
   make PLATFORM="armv7-generic"
 else
   echo "[$APPNAME] No supported platforms for rtlsdr-airband found."
-  exit 1
-fi
-
-
-# If we don't have an architecture at this point, there's been a problem and we can't continue
-if [ -z "${ARCH}" ]; then
-  echo "[$APPNAME] ERROR: Unable to determine architecture or unsupported architecture!"
   exit 1
 fi
 
