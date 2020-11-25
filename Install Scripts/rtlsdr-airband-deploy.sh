@@ -90,6 +90,11 @@ elif [ "$ARCH" = "amd64" ]; then
 elif [ "$ARCH" = "armhf" ]; then
   echo "Building rtlsdr-airband for ARM32"
   make PLATFORM="armv7-generic"
+elif [ "$ARCH" = "arm" ]; then
+  echo "Building rtlsdr-airband for ARMv6"
+  echo "Installing additonal packages for ARMv6"
+  apt-get install -y --no-install-recommends libraspberrypi-dev
+  make PLATFORM="rpiv1"
 else
   echo "[$APPNAME] No supported platforms for rtlsdr-airband found."
   exit 1

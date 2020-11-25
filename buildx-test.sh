@@ -5,7 +5,7 @@ set -xe
 
 REPO=fredclausen
 IMAGE=rtlsdrairband
-PLATFORMS="linux/arm64"
+PLATFORMS="linux/arm/v6"
 
 docker context use default
 export DOCKER_CLI_EXPERIMENTAL="enabled"
