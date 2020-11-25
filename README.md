@@ -1,6 +1,6 @@
 # docker-rtlsdrairband
 
-Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`. A container is provided for, but not tested, `amd64` and `arm32v7` (see below).
+Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`. A container is provided for, but not tested, `amd64`,`arm32v6` and `arm32v7` (see below).
 
 This container runs an Icecast audio server that RTLSDR-Airband can connect to so that you can use an RTLSDR dongle to listen to Air Traffic Control VHF radio communications via a web browser or audio playback program.
 
