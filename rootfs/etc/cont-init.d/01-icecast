@@ -30,6 +30,10 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 		if [ -n "${ICECAST_MAX_SOURCES}" ]; then
 		    sed -i "s/<sources>[^<]*<\/sources>/<sources>$ICECAST_MAX_SOURCES<\/sources>/g" /usr/local/etc/icecast.xml
 		fi
+
+		if [ -n "${PORT}" ]; then
+		    sed -i "s/<port>8000<\/port>/<port>$PORT<\/port>/g" /usr/local/etc/icecast.xml
+		fi
 	else
 		if [ -f "/run/rtlsdr-airband/icecast.conf" ]; then
 			echo "Custom config provided. Ignoring Icecast enviornment variables"

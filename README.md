@@ -22,6 +22,10 @@ Currently, this image should pull and run on the following architectures:
 
 Thanks to [mikenye](https://github.com/mikenye) for his excellent ADSB docker containers from which I shamelessly copied a lot of the ideas for setting up the docker container, as well as his excellent advice and help in getting this thing working.
 
+## Required Hardware
+
+You will need at least one RTLSDR dongle, and if multiple dongles are present on the system the dongle you are using needs to have the serial number set and passed in to the container (see ENV configuration below). [Kerberos SDR](https://othernet.is/products/kerberossdr-4x-coherent-rtl-sdr) RTLSDR devices will also work with this container.
+
 ## Up-and-Running with `docker run`
 
 ```shell
@@ -58,7 +62,16 @@ services:
 
 ## Ports
 
-Port 8000 is exposed in this container.
+Port 8000 is exposed by default in this container. If you want to use another port, set the following ENV variable
+
+* PORT
+
+To the port value you want. In the container startup command, ensure the value you set in the `PORT` ENV variable is used in place of 8000. For example, using the above docker compose with `PORT` set to 9000, the port line should look like this
+
+```yaml
+    ports:
+      - 9000:9000
+```
 
 ## Volumes
 
