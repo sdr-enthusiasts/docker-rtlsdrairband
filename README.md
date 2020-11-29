@@ -71,6 +71,9 @@ To the port value you want. In the container startup command, ensure the value y
 ```yaml
     ports:
       - 9000:9000
+    environment:
+      - RTLSDRAIRBAND_FREQS=123.9
+      - PORT=9000
 ```
 
 ## Volumes
