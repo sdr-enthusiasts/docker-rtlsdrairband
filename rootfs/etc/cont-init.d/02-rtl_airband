@@ -46,6 +46,12 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	else
 		sed -i "s/#serial = \"[^<]*\"; # device 1/serial = \"$RTLSDRAIRBAND_SERIAL\"; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
+
+	# squelch for testing
+
+	if [ -n "${SQUELCH}" ]; then
+		sed -i "s/#squelch = 0; # device 1/squelch = 0; # device 1/g" /usr/local/etc/rtl_airband.conf
+	fi
 else
 	if [ -f "/run/rtlsdr-airband/rtl_airband.conf" ]; then
 		echo "rtlsdr-airband custom config provided. Ignoring RTLSDRBAND config options"

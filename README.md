@@ -118,6 +118,20 @@ There are quite a few configuration options this container can accept.
 
 Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.
 
+### Testing
+
+If you want to test and make sure the stream is working, please ensure
+
+* RTLSDRAIRBAND_MODE
+
+Is either unset or set to multichannel
+
+And then add this to your enviornment variables
+
+* SQUELCH
+
+And set it any non-blank value. That will turn off auto-squelch and you will hear static when you open the stream.
+
 ### RTLSDIR-Airband Advanced Mode
 
 If you wish to feed multiple icecast servers from the same source RTLSDR dongle, provide the container with more than one RTLSDR dongle, or set up advanced RTLSDR-Airband options that are not configurable via the ENV variables, mount a volume in to the container at
