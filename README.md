@@ -148,7 +148,7 @@ In the mounted volume, provide a file named `icecast.xml` with your configuratio
 
 ## Accessing the Web Interface
 
-The web interface for the container can be found at `containerip:8000`
+The web interface for the container can be found at `containerip:8000` or `containerip:port` if `PORT` ENV variable is set.
 
 ## Logging
 
