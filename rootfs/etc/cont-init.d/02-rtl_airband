@@ -52,6 +52,10 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	if [ -n "${SQUELCH}" ]; then
 		sed -i "s/#squelch = 0; # device 1/squelch = 0; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
+
+	if [ -n "${LOG_SCANNED_ACTIVITY}" ]; then
+		sed -i "s/#log_scan_activity = true; # device 1/\\log_scan_activity = true; # device 1/g" /usr/local/etc/rtl_airband.conf
+	fi
 else
 	if [ -f "/run/rtlsdr-airband/rtl_airband.conf" ]; then
 		echo "rtlsdr-airband custom config provided. Ignoring RTLSDRBAND config options"

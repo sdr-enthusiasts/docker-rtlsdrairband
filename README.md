@@ -113,6 +113,7 @@ There are quite a few configuration options this container can accept.
 | RTLSDRAIRBAND_SHOWMETADATA | If not set, the icecast server will receive updated metadata (either frequency or a specific label) of the frequency that is being received, and will show in playback clients. It might be adventageous to disable this because updated metadata will clutter up the icecast server logs. To disable, set to any value. Not applicable to multichannel mode | No | true |
 | RTLSDRAIRBAND_LABELS | If RTLSDRAIRBAND_SHOWMETADATA is set to true, you can set this variable to a comma separated list of labels associated with the frequencies you are listening to. If set, the metadata on the icecast server will be updated to show the label associated with the frequency that is currently being received. If not set, the icecast metadata will be updated with the frequency. * See notes below for more information.| No | Not set |
 | RTLSDRAIRBAND_MOUNTPOINT | The custom part of the stream URL. Streams will be accessable at "serverip:8000/RTLSDRAIRBAND_MOUNTPOINT" | No | GND.mp3 |
+| LOG_SCAN_ACTIVITY | rtlsdr-airband can output what frequencies it has received traffic on. Set this to any non-blank value to enable | No | Unset |
 
 * See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces. 
 

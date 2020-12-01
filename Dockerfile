@@ -28,7 +28,8 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     RTLSDRAIRBAND_DESCRIPTION="Air traffic feed" \
     RTLSDRAIRBAND_LABELS="" \
     RTLSDRAIRBAND_SHOWMETADATA="" \
-    SQUELCH=""
+    SQUELCH="" \
+    LOG_SCAN_ACTIVITY=""
 
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
