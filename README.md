@@ -2,7 +2,7 @@
 
 Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`. A container is provided for, but not tested, `amd64` and `arm32v7` (see below).
 
-This container runs an Icecast audio server that RTLSDR-Airband can connect to so that you can use an RTLSDR dongle to listen to Air Traffic Control VHF radio communications via a web browser or audio playback program.
+This container runs an Icecast audio server that RTLSDR-Airband can connect to so that you can use an RTLSDR dongle to listen to Air Traffic Control VHF radio communications, as well some some additional kinds of NFM modulated transmissions (see [NFM](#nfm)) via a web browser or audio playback program.
 
 ## Supported tags and respective Dockerfiles
 
@@ -164,6 +164,10 @@ And set the following ENV variable to any value
 When that value is set, all ICECAST_* configuration values are ignored and your custom provided `icecast.xml` will be used.
 
 In the mounted volume, provide a file named `icecast.xml` with your configuration. See the [icecast documentation](https://icecast.org/docs/) for details on proper formatting of the file.
+
+## NFM
+
+The primary purpose of this container is to monitor VHF airband communications. However, the underlying software is not limited to strictly VHF communications and AM modulation. Using the `fredclausen/rtlsdrairband:latest_nfm` image you have the ability to enable NFM modulation and monitor additional radio communications (as I understand it, things like Railroad communications). This is not enabled in the `latest` tag by default because of the additional CPU overhead required (should be marginal, but not negligible if your hardware is constrained), but if you desire the functionality, please use the `latest_nfm` tag.
 
 ## Accessing the Web Interface
 

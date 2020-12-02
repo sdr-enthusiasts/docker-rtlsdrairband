@@ -99,10 +99,10 @@ fi
 if [ "$NFM" = "true" ]; then
   echo "[$APPNAME] NFM support enabled"
   MAKE_OPTIONS+="NFM=1"
-  make ${MAKE_OPTIONS[@]}
+  make "${MAKE_OPTIONS[@]}"
 else  
   echo "[$APPNAME] NFM support disabled"
-  make ${MAKE_OPTIONS[@]}
+  make "${MAKE_OPTIONS[@]}"
 fi
 
 make install
