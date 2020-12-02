@@ -13,3 +13,7 @@ docker buildx use cluster
 
 # Build & push latest
 docker buildx build -t "${REPO}/${IMAGE}:latest" --compress --push --platform "${PLATFORMS}" .
+
+sed "s/NFM=\"\"/NFM=\"true\"/g" < Dockerfile > Dockerfile.NFM
+
+docker buildx build -f Dockerfile.NFM -t "${REPO}/${IMAGE}:latest_nfm" --compress --push --platform "${PLATFORMS}" .

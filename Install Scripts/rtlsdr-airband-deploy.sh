@@ -98,11 +98,10 @@ if [ "$NFM" = "true" ]; then
   echo "[$APPNAME] NFM support enabled"
   NFM_MAKE="NFM=1"
 else  
-  echo "[$APPNAME] NFM support disabled"
-  
+  echo "[$APPNAME] NFM support disabled"  
 fi
 
-echo "[$APPNAME] Using make options ${MAKE_OPTIONS} ${NFM}"
+echo "[$APPNAME] Using make options ${MAKE_OPTIONS} ${NFM_MAKE}"
 make $MAKE_OPTIONS $NFM_MAKE
 make install
 echo "[$APPNAME] rtlsdr-airband deployment finished ok"
