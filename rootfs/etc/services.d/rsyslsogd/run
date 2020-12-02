@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+# shellcheck shell=sh
+
+ service rsyslog start > /dev/null 2>&1
+ sleep 600

@@ -54,7 +54,7 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	fi
 
 	if [ -n "${LOG_SCANNED_ACTIVITY}" ]; then
-		sed -i "s/#log_scan_activity = true; # device 1/\\log_scan_activity = true; # device 1/g" /usr/local/etc/rtl_airband.conf
+		sed -i "s/scan_activity = false; # device 1/scan_activity = true; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 else
 	if [ -f "/run/rtlsdr-airband/rtl_airband.conf" ]; then
