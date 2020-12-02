@@ -115,11 +115,13 @@ There are quite a few configuration options this container can accept.
 | RTLSDRAIRBAND_MOUNTPOINT | The custom part of the stream URL. Streams will be accessable at "serverip:8000/RTLSDRAIRBAND_MOUNTPOINT" | No | GND.mp3 |
 | LOG_SCAN_ACTIVITY | rtlsdr-airband can output what frequencies it has received traffic on. Set this to any non-blank value to enable | No | Unset |
 | FFT_SIZE | This value controls the general audio quality. A larger value means increased CPU usage. Accepted values are powers of two in the range of 256-8192, inclusive. | No | 2048 |
-| SAMPLE_RATE | Set the sample rate of the audio stream. See [this](https://github.com/szpajder/RTLSDR-Airband/wiki/Tweaking-sampling-rate-and-FFT-size) for more information | No | 2.56 |
+| SAMPLE_RATE | Set the sample rate of the audio stream. See [this](https://github.com/szpajder/RTLSDR-Airband/wiki/Tweaking-sampling-rate-and-FFT-size) for more information. Also see notes below. | No | 2.56 |
 
 * See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces. 
 
-Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.
+* Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.
+
+* Not all RTLSDR dongles will support sample rates above 2.56. If you see a dramatic reduction in reception after increasing sample rate above 2.65, reduce it back down.
 
 ### Testing
 
