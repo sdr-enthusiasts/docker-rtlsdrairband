@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+set -eo pipefail
+
+s6-notifyoncheck \
+    -s 1000 \
+    -t 1000 \
+    -n 0 \
+    -c "/usr/local/bin/check_syslog.sh" \
+    /sbin/syslogd \
+        -l "${SYSLOG_PRIORITY}" \
+        -n \
+        -O \
+        - \
+    2>&1 | awk -W Interactive '{print "[syslogd] " $0}'
