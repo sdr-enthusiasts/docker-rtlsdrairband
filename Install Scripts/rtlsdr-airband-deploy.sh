@@ -2,7 +2,6 @@
 #shellcheck shell=sh
 
 APPNAME="rtlsdr-airband"
-MAKE_OPTIONS=("")
 
 echo "[$APPNAME] deployment started"
 
