@@ -2,7 +2,7 @@
 #shellcheck shell=sh
 
 APPNAME="rtlsdr-airband"
-MAKE_OPTIONS=""
+MAKE_OPTIONS=("")
 
 echo "[$APPNAME] deployment started"
 
@@ -81,16 +81,16 @@ echo "[$APPNAME] Attempting to start the build"
 
 if [ "$ARCH" = "aarch64" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for ARM64"
-  MAKE_OPTIONS+="PLATFORM\\=armv8-generic"
+  MAKE_OPTIONS+=("PLATFORM=armv8-generic")
 elif [ "$ARCH" = "x86" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for x86"
-  MAKE_OPTIONS+="PLATFORM\\=x86"
+  MAKE_OPTIONS+=("PLATFORM=x86")
 elif [ "$ARCH" = "amd64" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for x86"
-  MAKE_OPTIONS+="PLATFORM\\=x86"
+  MAKE_OPTIONS+=("PLATFORM=x86")
 elif [ "$ARCH" = "armhf" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for ARM32"
-  MAKE_OPTIONS+="PLATFORM\\=armv7-generic"
+  MAKE_OPTIONS+=("PLATFORM=armv7-generic")
 else
   echo "[$APPNAME] No supported platforms for rtlsdr-airband found."
   exit 1
@@ -98,7 +98,7 @@ fi
 
 if [ "$NFM" = "true" ]; then
   echo "[$APPNAME] NFM support enabled"
-  MAKE_OPTIONS+="NFM=1"
+  MAKE_OPTIONS+=("NFM=1")
   make "${MAKE_OPTIONS[@]}"
 else  
   echo "[$APPNAME] NFM support disabled"
