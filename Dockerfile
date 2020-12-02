@@ -29,7 +29,9 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     RTLSDRAIRBAND_LABELS="" \
     RTLSDRAIRBAND_SHOWMETADATA="" \
     SQUELCH="" \
-    LOG_SCAN_ACTIVITY=""
+    LOG_SCAN_ACTIVITY="" \
+    FFT_SIZE="2048" \
+    SAMPLE_RATE="2.56"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

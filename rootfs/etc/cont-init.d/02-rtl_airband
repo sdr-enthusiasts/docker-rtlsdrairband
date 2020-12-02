@@ -33,6 +33,7 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 		sed -i "s/#freqs = ([^<]*); # device 1/freqs = ( $RTLSDRAIRBAND_FREQS ); # device 1/g" /usr/local/etc/rtl_airband.conf
 	else
 		sed -i "s/#freq = [^<]*; # device 1/freq = $RTLSDRAIRBAND_FREQS; # device 1/g" /usr/local/etc/rtl_airband.conf
+		sed -i "s/centerfreq = [^<]*; # device 1/centerfreq = $RTLSDRAIRBAND_FREQS; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 
 	sed -i "s/mountpoint = \"[^<]*\"; # device 1/mountpoint = \"$RTLSDRAIRBAND_MOUNTPOINT\"; # device 1/g" /usr/local/etc/rtl_airband.conf
@@ -55,6 +56,14 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 
 	if [ -n "${LOG_SCANNED_ACTIVITY}" ]; then
 		sed -i "s/scan_activity = false; # device 1/scan_activity = true; # device 1/g" /usr/local/etc/rtl_airband.conf
+	fi
+
+	if [ -n "${FFT_SIZE}" ]; then
+		sed -i "s/fft_size = 2048;/fft_size = $FFT_SIZE;/g" /usr/local/etc/rtl_airband.conf
+	fi
+
+	if [ -n "${SAMPLE_RATE}" ]; then
+		sed -i "s/sample_rate = 2.56; # device 1/sample_rate = $SAMPLE_RATE; # device 1/g" /usr/local/etc/rtl_airband.conf
 	fi
 else
 	if [ -f "/run/rtlsdr-airband/rtl_airband.conf" ]; then
