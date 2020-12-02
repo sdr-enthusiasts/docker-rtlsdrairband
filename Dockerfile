@@ -2,7 +2,6 @@ FROM debian:stable-slim
 
 ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    SYSLOG_PRIORITY=6 \
     ## Both services
     PORT="8000" \
     ## Icecast
@@ -32,7 +31,6 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     SQUELCH="" \
     LOG_SCAN_ACTIVITY=""
 
-
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -x && \
@@ -48,7 +46,7 @@ RUN set -x && \
     TEMP_PACKAGES+=(wget) && \
     # logging
     KEPT_PACKAGES+=(gawk) && \
-    KEPT_PACKAGES+=(busybox-syslogd) && \
+    KEPT_PACKAGES+=(rsyslog) && \
     # required for S6 overlay
     TEMP_PACKAGES+=(gnupg2) && \
     TEMP_PACKAGES+=(file) && \

@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
+
+tail -Fn0 /var/log/daemon.log | \
+while read line ; do
+        echo "$line"
+done
