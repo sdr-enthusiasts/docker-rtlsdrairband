@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-#shellcheck shell=sh
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
 
 APPNAME="rtlsdr-airband"
 
