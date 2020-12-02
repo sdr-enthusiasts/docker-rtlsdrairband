@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APPNAME="rtlsdr-airband"
-NFM=""
+NFM_MAKE=""
 
 echo "[$APPNAME] deployment started"
 
@@ -96,13 +96,13 @@ fi
 
 if [ "$NFM" = "true" ]; then
   echo "[$APPNAME] NFM support enabled"
-  NFM="NFM=1"
+  NFM_MAKE="NFM=1"
 else  
   echo "[$APPNAME] NFM support disabled"
   
 fi
 
 echo "[$APPNAME] Using make options ${MAKE_OPTIONS} ${NFM}"
-make $MAKE_OPTIONS $NFM
+make $MAKE_OPTIONS $NFM_MAKE
 make install
 echo "[$APPNAME] rtlsdr-airband deployment finished ok"
