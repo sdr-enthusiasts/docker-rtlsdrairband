@@ -1,21 +1,22 @@
 # docker-rtlsdrairband
 
-Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`. A container is provided for, but not tested, `amd64`,`arm32v6` and `arm32v7` (see below).
+Docker container to run [RTLSDR-Airband](https://github.com/szpajder/RTLSDR-Airband) alongside [Icecast](https://icecast.org). Builds and runs on `arm64`. A container is provided for, but not tested, `amd64` and `arm32v7` (see below).
 
 This container runs an Icecast audio server that RTLSDR-Airband can connect to so that you can use an RTLSDR dongle to listen to Air Traffic Control VHF radio communications via a web browser or audio playback program.
 
 ## Supported tags and respective Dockerfiles
 
 * `latest` (`master` branch, `Dockerfile`)
+* `latest_nfm` (`master` branch, `Dockerfile.NFM`. See [NFM](#nfm) below)
 * Version and architecture specific tags available
 
 ## Multi Architecture Support
 
 Currently, this image should pull and run on the following architectures:
 
-* `amd64`: Linux x86-64 (Builds, untested. If it works for you let me know!)
-* `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (Builds, untested. If it works for you let me know!)
-* `arm64`: ARMv8 64-bit (RPi 4 64-bit OSes)
+* `amd64`: Linux x86-64 (Builds but is untested. If it works for you let me know!)
+* `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (Builds but is untested. If it works for you let me know!)
+* `arm64`: ARMv8 64-bit (RPi 3 and 4 64-bit OSes)
 
 ## Thanks
 

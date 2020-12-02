@@ -96,7 +96,7 @@ else
   exit 1
 fi
 
-if [ "$NFM" = "true" ]
+if [ "$NFM" = "true" ]; then
   echo "NFM support enabled"
   MAKE_OPTIONS+="NFM=1"
   make ${MAKE_OPTIONS[@]}

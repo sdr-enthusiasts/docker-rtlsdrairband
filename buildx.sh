@@ -16,4 +16,4 @@ docker buildx build --no-cache -t "${REPO}/${IMAGE}:latest" --compress --push --
 
 sed "s/NFM=""/NFM=\"true\"/g" < Dockerfile > Dockerfile.NFM
 
-docker buildx build --no-cache -t "${REPO}/${IMAGE}:latest_nfm" --compress --push --platform "${PLATFORMS}" .
+docker buildx build -f Dockerfile.NFM --no-cache -t "${REPO}/${IMAGE}:latest_nfm" --compress --push --platform "${PLATFORMS}" .
