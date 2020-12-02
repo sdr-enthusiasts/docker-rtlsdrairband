@@ -102,7 +102,7 @@ else
   
 fi
 
-echo "Using options ${MAKE_OPTIONS} ${NFM}"
+echo "[$APPNAME] Using make options ${MAKE_OPTIONS} ${NFM}"
 make $MAKE_OPTIONS $NFM
 make install
 echo "[$APPNAME] rtlsdr-airband deployment finished ok"
