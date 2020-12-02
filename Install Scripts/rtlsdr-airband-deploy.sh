@@ -1,6 +1,7 @@
 #!/bin/bash
 
 APPNAME="rtlsdr-airband"
+NFM=""
 
 echo "[$APPNAME] deployment started"
 
@@ -15,7 +16,6 @@ mkdir -p /src/rtlsdr-airband/build
 if [ -z "${S6OVERLAY_ARCH}" ]; then
 
   echo "[$APPNAME] Determining architecture of target image"
-
 
   # Make sure `file` (libmagic) is available
   FILEBINARY=$(which file)
@@ -79,16 +79,16 @@ echo "[$APPNAME] Attempting to start the build"
 
 if [ "$ARCH" = "aarch64" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for ARM64"
-  MAKE_OPTIONS=("PLATFORM\=armv8-generic")
+  MAKE_OPTIONS="PLATFORM=armv8-generic"
 elif [ "$ARCH" = "x86" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for x86"
-  MAKE_OPTIONS=("PLATFORM\=x86")
+  MAKE_OPTIONS=("PLATFORM=x86")
 elif [ "$ARCH" = "amd64" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for x86"
-  MAKE_OPTIONS=("PLATFORM\=x86")
+  MAKE_OPTIONS=("PLATFORM=x86")
 elif [ "$ARCH" = "armhf" ]; then
   echo "[$APPNAME] Building rtlsdr-airband for ARM32"
-  MAKE_OPTIONS=("PLATFORM\=armv7-generic")
+  MAKE_OPTIONS=("PLATFORM=armv7-generic")
 else
   echo "[$APPNAME] No supported platforms for rtlsdr-airband found."
   exit 1
@@ -96,12 +96,13 @@ fi
 
 if [ "$NFM" = "true" ]; then
   echo "[$APPNAME] NFM support enabled"
-  MAKE_OPTIONS+=("NFM=1")
-  make "${MAKE_OPTIONS[@]}"
+  NFM="NFM=1"
 else  
   echo "[$APPNAME] NFM support disabled"
-  make "${MAKE_OPTIONS[@]}"
+  
 fi
 
+echo "Using options ${MAKE_OPTIONS} ${NFM}"
+make $MAKE_OPTIONS $NFM
 make install
 echo "[$APPNAME] rtlsdr-airband deployment finished ok"
