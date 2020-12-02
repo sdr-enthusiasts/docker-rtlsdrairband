@@ -2,6 +2,7 @@
 #shellcheck shell=sh
 
 APPNAME="rtlsdr-airband"
+MAKE_OPTIONS=""
 
 echo "[$APPNAME] deployment started"
 
@@ -80,26 +81,29 @@ echo "[$APPNAME] Attempting to start the build"
 
 if [ "$ARCH" = "aarch64" ]; then
   echo "Building rtlsdr-airband for ARM64"
-  make PLATFORM="armv8-generic"
+  MAKE_OPTIONS+="PLATFORM=\"armv8-generic\""
 elif [ "$ARCH" = "x86" ]; then
   echo "Building rtlsdr-airband for x86"
-  make PLATFORM="x86"
+  MAKE_OPTIONS+="PLATFORM=\"x86\""
 elif [ "$ARCH" = "amd64" ]; then
   echo "Building rtlsdr-airband for x86"
-  make PLATFORM="x86"
+  MAKE_OPTIONS+="PLATFORM=\"x86\""
 elif [ "$ARCH" = "armhf" ]; then
   echo "Building rtlsdr-airband for ARM32"
-  make PLATFORM="armv7-generic"
-elif [ "$ARCH" = "arm" ]; then
-  echo "Building rtlsdr-airband for ARMv6"
-  echo "Installing additonal packages for ARMv6"
-  apt-get install -y --no-install-recommends libraspberrypi-dev
-  make PLATFORM="rpiv1"
+  MAKE_OPTIONS+="PLATFORM=\"armv7-generic\""
 else
   echo "[$APPNAME] No supported platforms for rtlsdr-airband found."
   exit 1
 fi
 
-make install
+if [ "$NFM" = "true" ]
+  echo "NFM support enabled"
+  MAKE_OPTIONS+="NFM=1"
+  make ${MAKE_OPTIONS[@]}
+else  
+  echo "NFM support disabled"
+  make ${MAKE_OPTIONS[@]}
+fi
 
+make install
 echo "[$APPNAME] rtlsdr-airband deployment finished ok"

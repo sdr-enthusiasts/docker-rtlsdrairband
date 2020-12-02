@@ -14,7 +14,6 @@ This container runs an Icecast audio server that RTLSDR-Airband can connect to s
 Currently, this image should pull and run on the following architectures:
 
 * `amd64`: Linux x86-64 (Builds, untested. If it works for you let me know!)
-* `arm32v6`: ARMv6 32-bit (Older RPis) (Builds, untested. If it works for you let me know!)
 * `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (Builds, untested. If it works for you let me know!)
 * `arm64`: ARMv8 64-bit (RPi 4 64-bit OSes)
 
@@ -106,13 +105,13 @@ There are quite a few configuration options this container can accept.
 | `RTLSDRAIRBAND_CORRECTION` | Use this if your dongle has a non-zero frequency tuning error, which requires correcting. Put correction value in ppm here. If the dongle tunes too high, this value shall be positive, negative otherwise. | No | `0` |
 | `RTLSDRAIRBAND_SERIAL` | Used to have rtlsdr-airband use the correct dongle if more than one present. Enter the serial of the dongle to be used | No | `Unset` |
 | `RTLSDRAIRBAND_MODE` | If you are tuning a single frequency, set multichannel. If you are tuning more than one, set as scan | No | `multichannel` |
-| `RTLSDRAIRBAND_FREQS`| If you are setting `multichannel` for your mode, enter a single frequency. If you are setting mode as `scan`, enter a comma separated list of frequencies you want to scan. Full formatting of the frequencies can be found [here](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuring-channels-for-multichannel-mode) | Yes | `Unset` |
+| `RTLSDRAIRBAND_FREQS`| If you are setting `multichannel` for your mode, enter a single frequency. If you are setting mode as `scan`, enter a comma separated list of frequencies you want to scan. Full formatting of the frequencies can be found [here](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuring-channels-for-multichannel-mode) | **Yes** | `Unset` |
 | `RTLSDRAIRBAND_NAME` | The name of your stream | No | `Tower` |
 | `RTLSDRAIRBAND_GENRE` | The genre of your stream | No | `ATC` |
 | `RTLSDRAIRBAND_DESCRIPTION` | A description of your stream | No | `Air traffic feed` |
 | `RTLSDRAIRBAND_SHOWMETADATA` | If not set, the icecast server will receive updated metadata (either frequency or a specific label) of the frequency that is being received, and will show in playback clients. It might be adventageous to disable this because updated metadata will clutter up the icecast server logs. To disable, set to any value. Not applicable to multichannel mode | No | `true` |
 | `RTLSDRAIRBAND_LABELS` | If `RTLSDRAIRBAND_SHOWMETADATA` is set to true, you can set this variable to a comma separated list of labels associated with the frequencies you are listening to. If set, the metadata on the icecast server will be updated to show the label associated with the frequency that is currently being received. If not set, the icecast metadata will be updated with the frequency. * See notes below for more information.| No | `unset` |
-| `RTLSDRAIRBAND_MOUNTPOINT` | The custom part of the stream URL. Streams will be accessable at "serverip:8000/RTLSDRAIRBAND_MOUNTPOINT" | `No` | `GND.mp3` |
+| `RTLSDRAIRBAND_MOUNTPOINT` | The custom part of the stream URL. Streams will be accessable at `serverip:PORT/RTLSDRAIRBAND_MOUNTPOINT` | `No` | `GND.mp3` |
 | `LOG_SCAN_ACTIVITY` | rtlsdr-airband can output what frequencies it has received traffic on. Set this to any non-blank value to enable | `No` | `Unset` |
 | `FFT_SIZE` | This value controls the general audio quality. A larger value means increased CPU usage. Accepted values are powers of two in the range of 256-8192, inclusive. | No | `2048` |
 | `SAMPLE_RATE` | Set the sample rate of the audio stream. See [this](https://github.com/szpajder/RTLSDR-Airband/wiki/Tweaking-sampling-rate-and-FFT-size) for more information. Also see notes below. | No | `2.56` |
