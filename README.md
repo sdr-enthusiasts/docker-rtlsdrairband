@@ -147,9 +147,9 @@ And set the following ENV variable to any value
 
 * `RTLSDRAIRBAND_CUSTOMCONFIG`
 
-When that value is set, all `RTLSDRAIRBAND_*` configuration values are ignored and your custom provided `rtlsdr-airband.conf` will be used.
+When that value is set, all `RTLSDRAIRBAND_*` configuration values are ignored and your custom provided `rtl_airband.conf` will be used.
 
-In the mounted volume, provide a file named `rtlsdr-airband.conf` with your configuration. See [RTLSDR-Airband configuration](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuration-essentials) for details on proper formatting of the file.
+In the mounted volume, provide a file named `rtl_airband.conf` with your configuration. See [RTLSDR-Airband configuration](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuration-essentials) for details on proper formatting of the file.
 
 ### Icecast Advanced Mode
 
