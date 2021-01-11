@@ -1,16 +1,32 @@
 #!/usr/bin/with-contenv bash
 #shellcheck shell=bash
 
-if [ -f /run/rtl_airband.pid ]; then
-	sleep 60
-else
-	if [ -n "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
-		/usr/local/bin/rtl_airband -c /run/rtlsdr-airband/rtl_airband.conf 
-		#2>&1 \
-		#	| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
-	else 
-		/usr/local/bin/rtl_airband -c /usr/local/etc/rtl_airband.conf 
-		#2>&1 \
-		#	| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+# wait for icecast to come on line if not disabled/custom
+if [ -z "${ICECAST_DISABLE}" ]; then
+	if [ -z "$ICECAST_CUSTOMCONFIG" ]; then
+		if ! /opt/healthchecks-framework/checks/check_tcp4_socket_listening.sh ANY "$PORT" 2> /dev/null; then
+			echo "Waiting for local icecast to start..." \
+				2>&1 \
+				| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+			sleep 1
+			exit 0
+		fi
 	fi
+fi
+
+# if custom config, use it
+if [ -n "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
+	/usr/local/bin/rtl_airband \
+		-F \
+		-e \
+		-c /run/rtlsdr-airband/rtl_airband.conf \
+	2>&1 \
+		| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+else 
+	/usr/local/bin/rtl_airband \
+		-F \
+		-e \
+		-c /usr/local/etc/rtl_airband.conf \
+	2>&1 \
+		| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 fi

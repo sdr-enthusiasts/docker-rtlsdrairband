@@ -51,7 +51,6 @@ RUN set -x && \
     TEMP_PACKAGES+=(wget) && \
     # logging
     KEPT_PACKAGES+=(gawk) && \
-    KEPT_PACKAGES+=(rsyslog) && \
     # required for S6 overlay
     TEMP_PACKAGES+=(gnupg2) && \
     TEMP_PACKAGES+=(file) && \
@@ -100,6 +99,8 @@ RUN set -x && \
     KEPT_PACKAGES+=(libavahi-core7) && \
     TEMP_PACKAGES+=(libdbus-1-dev) && \
     KEPT_PACKAGES+=(libdbus-1-3) && \
+    # Required for healthchecks
+    KEPT_PACKAGES+=(net-tools) && \
     # install first round of packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -311,6 +312,17 @@ RUN set -x && \
     # install S6 Overlay
     curl -o /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
     bash -x /tmp/deploy-s6-overlay.sh && \
+    # Deploy healthchecks framework
+    git clone \
+      --depth=1 \
+      "https://github.com/mikenye/docker-healthchecks-framework.git" \
+      /opt/healthchecks-framework \
+      && \
+    rm -rf \
+      /opt/healthchecks-framework/.git* \
+      /opt/healthchecks-framework/*.md \
+      /opt/healthchecks-framework/tests \
+      && \
     # Clean up
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
@@ -319,3 +331,6 @@ RUN set -x && \
     rtl_airband -v | tr -s " " | rev | cut -d " " -f 1 | rev > /CONTAINER_VERSION
 
 ENTRYPOINT [ "/init" ]
+
+# Add healthcheck
+HEALTHCHECK --start-period=300s --interval=300s CMD /scripts/healthcheck.sh
