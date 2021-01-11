@@ -2,10 +2,11 @@
 #shellcheck shell=bash
 
 if [ -z "${ICECAST_DISABLE}" ]; then
-	echo "Starting Icecast"
+	echo "Starting Icecast" 2>&1 \
+		| stdbuf -o0 awk '{print "[icecast] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 
 	if [ -n "$ICECAST_CUSTOMCONFIG" ]; then
-		s6-setuidgid icecast2 icecast2 -c /run/rtlsdr-airband/icecast.xml  2>&1 \
+		s6-setuidgid icecast2 icecast2 -c /run/rtlsdr-airband/icecast.xml 2>&1 \
 		| stdbuf -o0 awk '{print "[icecast] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 	else 
 		s6-setuidgid icecast2 icecast2 -c /usr/local/etc/icecast.xml 2>&1 \
