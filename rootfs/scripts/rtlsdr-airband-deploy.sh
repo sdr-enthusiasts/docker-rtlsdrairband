@@ -1,7 +1,6 @@
 #!/bin/bash
 
 APPNAME="rtlsdr-airband"
-NFM_MAKE=""
 
 echo "[$APPNAME] deployment started"
 
@@ -32,6 +31,8 @@ if [ -z "${S6OVERLAY_ARCH}" ]; then
   # /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=d48e1d621e9b833b5d33ede3b4673535df181fe0, stripped  
   if echo "${FILEOUTPUT}" | grep "Intel 80386" > /dev/null; then
     ARCH="x86"
+    echo "[$APPNAME] Building rtlsdr-airband for x86"
+    PLATFORM=x86
   fi
 
   # x86-64
@@ -40,13 +41,15 @@ if [ -z "${S6OVERLAY_ARCH}" ]; then
   # /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=6b0b86f64e36f977d088b3e7046f70a586dd60e7, stripped
   if echo "${FILEOUTPUT}" | grep "x86-64" > /dev/null; then
     ARCH="amd64"
+    echo "[$APPNAME] Building rtlsdr-airband for x86"
+    PLATFORM=x86
   fi
 
   # armel
   # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=f57b617d0d6cd9d483dcf847b03614809e5cd8a9, stripped
   if echo "${FILEOUTPUT}" | grep "ARM" > /dev/null; then
 
-    ARCH="arm"
+    # ARCH="arm"
 
     # armhf
     # Example outputs:
@@ -54,6 +57,8 @@ if [ -z "${S6OVERLAY_ARCH}" ]; then
     # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=921490a07eade98430e10735d69858e714113c56, stripped
     if echo "${FILEOUTPUT}" | grep "armhf" > /dev/null; then
       ARCH="armhf"
+      echo "[$APPNAME] Building rtlsdr-airband for arm32v7"
+      PLATFORM=armv7-generic
     fi
 
     # arm64
@@ -62,6 +67,8 @@ if [ -z "${S6OVERLAY_ARCH}" ]; then
     # /usr/bin/file: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0, BuildID[sha1]=a8d6092fd49d8ec9e367ac9d451b3f55c7ae7a78, stripped
     if echo "${FILEOUTPUT}" | grep "aarch64" > /dev/null; then
       ARCH="aarch64"
+      echo "[$APPNAME] Building rtlsdr-airband for arm64"
+      PLATFORM=armv8-generic
     fi
 
   fi
@@ -77,31 +84,7 @@ fi
 echo "[$APPNAME] Arch is $ARCH"
 echo "[$APPNAME] Attempting to start the build"
 
-if [ "$ARCH" = "aarch64" ]; then
-  echo "[$APPNAME] Building rtlsdr-airband for ARM64"
-  MAKE_OPTIONS="PLATFORM=armv8-generic"
-elif [ "$ARCH" = "x86" ]; then
-  echo "[$APPNAME] Building rtlsdr-airband for x86"
-  MAKE_OPTIONS="PLATFORM=x86"
-elif [ "$ARCH" = "amd64" ]; then
-  echo "[$APPNAME] Building rtlsdr-airband for x86"
-  MAKE_OPTIONS="PLATFORM=x86"
-elif [ "$ARCH" = "armhf" ]; then
-  echo "[$APPNAME] Building rtlsdr-airband for ARM32"
-  MAKE_OPTIONS="PLATFORM=armv7-generic"
-else
-  echo "[$APPNAME] No supported platforms for rtlsdr-airband found."
-  exit 1
-fi
-
-if [ "$NFM" = "true" ]; then
-  echo "[$APPNAME] NFM support enabled"
-  NFM_MAKE="NFM=1"
-else  
-  echo "[$APPNAME] NFM support disabled"  
-fi
-
-echo "[$APPNAME] Using make options ${MAKE_OPTIONS} ${NFM_MAKE}"
-make $MAKE_OPTIONS $NFM_MAKE
+echo "[$APPNAME] Using make options PLATFORM=$PLATFORM WITH_SOAPYSDR=1 NFM_MAKE=$NFM_MAKE"
+make PLATFORM="$PLATFORM" WITH_SOAPYSDR=1 NFM_MAKE="$NFM_MAKE"
 make install
 echo "[$APPNAME] rtlsdr-airband deployment finished ok"

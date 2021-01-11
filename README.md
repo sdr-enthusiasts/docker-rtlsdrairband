@@ -139,7 +139,7 @@ And set it any non-blank value. That will turn off auto-squelch and you will hea
 
 ### RTLSDIR-Airband Advanced Mode
 
-If you wish to feed multiple icecast servers from the same source RTLSDR dongle, provide the container with more than one RTLSDR dongle, or set up advanced RTLSDR-Airband options that are not configurable via the ENV variables, mount a volume in to the container at
+If you wish to feed multiple icecast servers from the same source RTLSDR dongle, provide the container with more than one RTLSDR dongle, use SoapySDR to access non-RTLSDR dongles, or set up advanced RTLSDR-Airband options that are not configurable via the ENV variables, mount a volume in to the container at:
 
 * `/run/rtlsdr-airband`
 
@@ -150,6 +150,15 @@ And set the following ENV variable to any value
 When that value is set, all `RTLSDRAIRBAND_*` configuration values are ignored and your custom provided `rtl_airband.conf` will be used.
 
 In the mounted volume, provide a file named `rtl_airband.conf` with your configuration. See [RTLSDR-Airband configuration](https://github.com/szpajder/RTLSDR-Airband/wiki/Configuration-essentials) for details on proper formatting of the file.
+
+SoapySDR support for the following hardware is provided:
+
+* HackRF
+* AirSpy & AirSpy HF
+* LimeSDR
+* BladeRF
+* PlutoSDR
+* SoapyRemote
 
 ### Icecast Advanced Mode
 
