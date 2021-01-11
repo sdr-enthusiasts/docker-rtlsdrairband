@@ -82,7 +82,7 @@ It is possible to mount `/run/rtlsdir-airband` and provide the container a custo
 
 ## Environment variables
 
-There are quite a few configuration options this container can accept. 
+There are quite a few configuration options this container can accept.
 
 ### Icecast
 
@@ -101,7 +101,7 @@ There are quite a few configuration options this container can accept.
 
 | Variable | Description | Required | Default |
 |----------|-------------|---------|--------|
-| `RTLSDRAIRBAND_RADIO_TYPE` | Type of dongle that is providing the radio tuning. Right now, only rtlsdr is usable. If you need something else supported, let me know | No | `rtlsdr` | 
+| `RTLSDRAIRBAND_RADIO_TYPE` | Type of dongle that is providing the radio tuning. Right now, only rtlsdr is usable. If you need something else supported, let me know | No | `rtlsdr` |
 | `RTLSDRAIRBAND_GAIN` | Gain setting for the RTLSDR dongle | No | `25` |
 | `RTLSDRAIRBAND_CORRECTION` | Use this if your dongle has a non-zero frequency tuning error, which requires correcting. Put correction value in ppm here. If the dongle tunes too high, this value shall be positive, negative otherwise. | No | `0` |
 | `RTLSDRAIRBAND_SERIAL` | Used to have rtlsdr-airband use the correct dongle if more than one present. Enter the serial of the dongle to be used | No | `Unset` |
@@ -117,7 +117,7 @@ There are quite a few configuration options this container can accept.
 | `FFT_SIZE` | This value controls the general audio quality. A larger value means increased CPU usage. Accepted values are powers of two in the range of 256-8192, inclusive. | No | `2048` |
 | `SAMPLE_RATE` | Set the sample rate of the audio stream. See [this](https://github.com/szpajder/RTLSDR-Airband/wiki/Tweaking-sampling-rate-and-FFT-size) for more information. Also see notes below. | No | `2.56` |
 
-* See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces. 
+* See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces.
 
 * Additionally, icecast metadata syncing (with or without labels) may not be in sync with the audio. The [RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) explains why.
 

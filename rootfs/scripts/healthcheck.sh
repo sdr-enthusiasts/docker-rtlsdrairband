@@ -23,7 +23,7 @@ echo "ICECAST CONNETIVITY CHECKS:"
 #   - `tr -d '\n'` & `tr -d '\r'` - makes the whole config one line
 #   - `tr -s ' '` - squashes whitespace (probably not required)
 #   - `grep...` - returns only the stanzas that contain icecast configuration
-ICECAST_CONFIG_LINES=$(cat "$RTLSDRAIRBAND_CONFIGFILE" | tr -d '\n' | tr -d '\r' | tr -s ' ' | grep -oP '{[^{}]*?type\s*=\s*"icecast"\s*;[^{}]*?}')
+ICECAST_CONFIG_LINES=$(tr -d '\n' < "$RTLSDRAIRBAND_CONFIGFILE" | tr -d '\r' | tr -s ' ' | grep -oP '{[^{}]*?type\s*=\s*"icecast"\s*;[^{}]*?}')
 
 # If there are icecast connections configured...
 if [[ -n "$ICECAST_CONFIG_LINES" ]]; then

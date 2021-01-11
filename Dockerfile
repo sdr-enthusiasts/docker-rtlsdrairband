@@ -48,7 +48,6 @@ RUN set -x && \
     TEMP_PACKAGES+=(git) && \
     TEMP_PACKAGES+=(automake) && \
     TEMP_PACKAGES+=(autoconf) && \
-    TEMP_PACKAGES+=(wget) && \
     # logging
     KEPT_PACKAGES+=(gawk) && \
     # required for S6 overlay
@@ -109,7 +108,7 @@ RUN set -x && \
         && \
     # icecast install
     sh -c "echo deb-src http://download.opensuse.org/repositories/multimedia:/xiph/Debian_9.0/ ./ >>/etc/apt/sources.list.d/icecast.list" && \
-    wget -qO - http://icecast.org/multimedia-obs.key | apt-key add - && \
+    curl -s --location http://icecast.org/multimedia-obs.key | apt-key add - && \
     KEPT_PACKAGES+=(icecast2) && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -326,7 +325,9 @@ RUN set -x && \
     # Clean up
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
-    rm -rf /src/* /tmp/* /var/lib/apt/lists/* 
+    rm -rf /src/* /tmp/* /var/lib/apt/lists/* && \
+    # Store container version
+    rtl_airband -v | tr -s " " | rev | cut -d " " -f 1 | rev > /CONTAINER_VERSION
 
 ENTRYPOINT [ "/init" ]
 

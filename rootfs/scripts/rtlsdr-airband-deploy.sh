@@ -7,7 +7,7 @@ echo "[$APPNAME] deployment started"
 #Downloading source
 echo "[$APPNAME] Cloning the git repository"
 git clone git://github.com/szpajder/RTLSDR-Airband.git /src/rtlsdr-airband 
-cd /src/rtlsdr-airband
+cd /src/rtlsdr-airband || exit 1
 git checkout master
 mkdir -p /src/rtlsdr-airband/build 
     

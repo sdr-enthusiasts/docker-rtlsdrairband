@@ -5,6 +5,7 @@
 if [ -z "${ICECAST_DISABLE}" ]; then
 	if [ -z "$ICECAST_CUSTOMCONFIG" ]; then
 		if ! /opt/healthchecks-framework/checks/check_tcp4_socket_listening.sh ANY "$PORT" 2> /dev/null; then
+			# shellcheck disable=SC2016
 			echo "Waiting for local icecast to start..." \
 				2>&1 \
 				| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
@@ -16,6 +17,7 @@ fi
 
 # if custom config, use it
 if [ -n "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
+	# shellcheck disable=SC2016
 	/usr/local/bin/rtl_airband \
 		-F \
 		-e \
@@ -23,6 +25,7 @@ if [ -n "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	2>&1 \
 		| stdbuf -o0 awk '{print "[rtlsdr-airband] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 else 
+	# shellcheck disable=SC2016
 	/usr/local/bin/rtl_airband \
 		-F \
 		-e \
