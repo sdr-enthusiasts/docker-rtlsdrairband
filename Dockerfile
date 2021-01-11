@@ -314,6 +314,8 @@ RUN set -x && \
     # Clean up
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
-    rm -rf /src/* /tmp/* /var/lib/apt/lists/* 
+    rm -rf /src/* /tmp/* /var/lib/apt/lists/* && \
+    # Store container version
+    rtl_airband -v | tr -s " " | rev | cut -d " " -f 1 | rev > /CONTAINER_VERSION
 
 ENTRYPOINT [ "/init" ]
