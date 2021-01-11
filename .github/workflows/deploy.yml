@@ -192,7 +192,7 @@ jobs:
           tags: ${{ env.REPO }}/${{ env.IMAGE }}:latest_nohealthcheck_${{ env.ARCH_TAG }}
 
   deploy_dockerhub_multiarch_nfm:
-    name: Deploy to DockerHub (Multi-Arch)
+    name: Deploy to DockerHub (NFM Multi-Arch)
     runs-on: ubuntu-latest
 
     # Set job-wide environment variables
@@ -277,7 +277,7 @@ jobs:
           tags: ${{ env.REPO }}/${{ env.IMAGE }}:latest_nfm_nohealthcheck
 
   deploy_dockerhub_single_arch_nfm:
-    name: Deploy to DockerHub
+    name: Deploy to DockerHub (NFM)
     runs-on: ubuntu-latest
     strategy:
       matrix:
