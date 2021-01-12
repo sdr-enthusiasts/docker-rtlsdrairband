@@ -8,7 +8,7 @@ on:
 
 jobs:
   buildx:
-    name: Test image build
+    name: Test image build and first-run make of rtl_airband
     runs-on: ubuntu-latest
 
     # Set job-wide environment variables
@@ -67,6 +67,11 @@ jobs:
         run: |
           echo "Architecture suffix: ${{ env.ARCH_TAG }}"
 
+      # Patch Dockerfile to include first-run build of rtl_airband
+      - 
+        name: Patch Dockerfile to include first-run build of rtl_airband
+        run: echo "RUN /etc/cont-init.d/01-build-rtl_airband" >> Dockerfile
+
       # Test container build for all supported platforms (defined above)
       -
         name: Test Build ${{ matrix.docker-platform }}
@@ -79,7 +84,7 @@ jobs:
           push: false
 
   buildx_nfm:
-    name: Test image build (NFM)
+    name: Test image build and first-run make of rtl_airband (NFM)
     runs-on: ubuntu-latest
 
     # Set job-wide environment variables
@@ -142,6 +147,11 @@ jobs:
       -
         name: Patch Dockerfile for NFM build
         run: sed "s/NFM_MAKE=\"\"/NFM_MAKE=1/g" < Dockerfile > Dockerfile.NFM
+
+      # Patch Dockerfile to include first-run build of rtl_airband
+      - 
+        name: Patch Dockerfile to include first-run build of rtl_airband
+        run: echo "RUN /etc/cont-init.d/01-build-rtl_airband" >> Dockerfile.NFM
 
       # Test container build for all supported platforms (defined above)
       -
