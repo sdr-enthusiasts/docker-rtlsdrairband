@@ -1,5 +1,5 @@
-#!/usr/bin/with-contenv sh
-# shellcheck shell=sh
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
 
 if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	sed -i "s/type = \"[^<]*\"; # device 1 radio/type = \"$RTLSDRAIRBAND_RADIO_TYPE\"; # device 1 radio/g" /usr/local/etc/rtl_airband.conf

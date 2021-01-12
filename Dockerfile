@@ -58,14 +58,6 @@ RUN set -x && \
     # libusb-1.0-0 + dev - Required for rtl-sdr, libiio (bladeRF/PlutoSDR).
     KEPT_PACKAGES+=(libusb-1.0-0) && \
     TEMP_PACKAGES+=(libusb-1.0-0-dev) && \
-    # Required to run RTLSDR-Arband
-    KEPT_PACKAGES+=(libmp3lame-dev) && \
-    KEPT_PACKAGES+=(libshout3-dev ) && \
-    KEPT_PACKAGES+=(libconfig++-dev) && \
-    KEPT_PACKAGES+=(libfftw3-dev) && \
-    KEPT_PACKAGES+=(libvorbisenc2) &&\
-    KEPT_PACKAGES+=(libshout3) && \
-    KEPT_PACKAGES+=(libconfig++9v5) && \
     # packages for icecast
     KEPT_PACKAGES+=(libxml2) && \
     TEMP_PACKAGES+=(libxml2-dev) && \
@@ -103,20 +95,20 @@ RUN set -x && \
     # install first round of packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        ${KEPT_PACKAGES[@]} \
-        ${TEMP_PACKAGES[@]} \
-        && \
+      ${KEPT_PACKAGES[@]} \
+      ${TEMP_PACKAGES[@]} \
+      && \
     # icecast install
     sh -c "echo deb-src http://download.opensuse.org/repositories/multimedia:/xiph/Debian_9.0/ ./ >>/etc/apt/sources.list.d/icecast.list" && \
     curl -s --location http://icecast.org/multimedia-obs.key | apt-key add - && \
     KEPT_PACKAGES+=(icecast2) && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        ${KEPT_PACKAGES[@]} \
-        ${TEMP_PACKAGES[@]} \
-        && \
+      ${KEPT_PACKAGES[@]} \
+      ${TEMP_PACKAGES[@]} \
+      && \
     mkdir -p /etc/icecast2/logs && \
-    chown -R icecast2 /etc/icecast2; \
+    chown -R icecast2 /etc/icecast2 && \
     # Deploy rtl-sdr
     git clone git://git.osmocom.org/rtl-sdr.git /src/rtl-sdr && \
     pushd /src/rtl-sdr && \
@@ -139,6 +131,7 @@ RUN set -x && \
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DINSTALL_UDEV_RULES=ON ../ && \
     make all && \
     make install && \
+    popd && popd && \
     # Download bladeRF FPGA Images
     BLADERF_RBF_PATH="/usr/share/Nuand/bladeRF" && \
     mkdir -p "$BLADERF_RBF_PATH" && \
@@ -322,12 +315,33 @@ RUN set -x && \
       /opt/healthchecks-framework/*.md \
       /opt/healthchecks-framework/tests \
       && \
+    # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
+    git clone git://github.com/szpajder/RTLSDR-Airband.git /opt/rtlsdr-airband && \
+    pushd /opt/rtlsdr-airband && \
+    BRANCH_RTL_AIRBAND=$(git tag | tail -1) && \
+    git checkout "$BRANCH_RTL_AIRBAND" && \
+    echo "$BRANCH_RTL_AIRBAND" > /CONTAINER_VERSION && \
+    popd && \
     # Clean up
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
-    rm -rf /src/* /tmp/* /var/lib/apt/lists/* && \
-    # Store container version
-    rtl_airband -v | tr -s " " | rev | cut -d " " -f 1 | rev > /CONTAINER_VERSION
+    # Install packages required for first-run build of rtl_airband
+    # This is done after clean-up to prevent accidental package removal
+    unset KEPT_PACKAGES && \
+    KEPT_PACKAGES=() && \
+    KEPT_PACKAGES+=(g++) && \
+    KEPT_PACKAGES+=(libconfig++-dev) && \
+    KEPT_PACKAGES+=(libfftw3-dev) && \
+    KEPT_PACKAGES+=(libmp3lame-dev) && \
+    KEPT_PACKAGES+=(libogg-dev) && \
+    KEPT_PACKAGES+=(libshout3-dev) && \
+    KEPT_PACKAGES+=(libvorbis-dev) && \
+    KEPT_PACKAGES+=(make) && \
+    apt-get install -y --no-install-recommends \
+      ${KEPT_PACKAGES[@]} \
+      && \
+    # Clean up
+    rm -rf /src/* /tmp/* /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/init" ]
 
