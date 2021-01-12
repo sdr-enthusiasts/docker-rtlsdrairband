@@ -74,10 +74,10 @@ echo "[$APPNAME] Writing build script: /scripts/build_rtl_airband.sh"
 # Write build script (to be executed by /etc/cont-init.d/01-build-rtl_airband)
 {
   echo "#!/usr/bin/env bash"
-  echo "pushd /opt/rtlsdr-airband || exit 1"
+  echo "pushd /opt/rtlsdr-airband > /dev/null || exit 1"
   echo "make PLATFORM=\"$PLATFORM\" WITH_SOAPYSDR=1 NFM_MAKE=\"$NFM_MAKE\""
   echo "make install"
-  echo "popd"
+  echo "popd > /dev/null"
 } > /scripts/build_rtl_airband.sh
 
 # Make script executable
