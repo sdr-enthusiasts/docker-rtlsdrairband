@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Check to see if rtl_airband exists
+if [[ -e "/usr/local/bin/rtl_airband" ]]; then
+    echo "/usr/local/bin/rtl_airband already exists, not building"
+else
+    echo "Building rtl_airband optimised for this host's CPU"
+    /scripts/build_rtl_airband.sh | grep -vi '*** Done. If this is a new install,'
+fi
