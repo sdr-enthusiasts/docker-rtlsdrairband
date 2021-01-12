@@ -2,75 +2,61 @@
 
 APPNAME="rtlsdr-airband"
 
-echo "[$APPNAME] deployment started"
+echo "[$APPNAME] Determining architecture of target image"
 
-#Downloading source
-echo "[$APPNAME] Cloning the git repository"
-git clone git://github.com/szpajder/RTLSDR-Airband.git /src/rtlsdr-airband 
-cd /src/rtlsdr-airband || exit 1
-git checkout master
-mkdir -p /src/rtlsdr-airband/build 
-    
-# If S6 architecture not specified...
-if [ -z "${S6OVERLAY_ARCH}" ]; then
+# Make sure `file` (libmagic) is available
+FILEBINARY=$(which file)
+if [ -z "$FILEBINARY" ]; then
+  echo "[$APPNAME] ERROR: 'file' (libmagic) not available, cannot detect architecture!"
+  exit 1
+fi
 
-  echo "[$APPNAME] Determining architecture of target image"
+FILEOUTPUT=$("${FILEBINARY}" -L "${FILEBINARY}")
 
-  # Make sure `file` (libmagic) is available
-  FILEBINARY=$(which file)
-  if [ -z "$FILEBINARY" ]; then
-    echo "[$APPNAME] ERROR: 'file' (libmagic) not available, cannot detect architecture!"
-    exit 1
+# 32-bit x86
+# Example output:
+# /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-i386.so.1, stripped
+# /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=d48e1d621e9b833b5d33ede3b4673535df181fe0, stripped  
+if echo "${FILEOUTPUT}" | grep "Intel 80386" > /dev/null; then
+  ARCH="x86"
+  echo "[$APPNAME] Building rtlsdr-airband for x86"
+  PLATFORM=x86
+fi
+
+# x86-64
+# Example output:
+# /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, stripped
+# /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=6b0b86f64e36f977d088b3e7046f70a586dd60e7, stripped
+if echo "${FILEOUTPUT}" | grep "x86-64" > /dev/null; then
+  ARCH="amd64"
+  echo "[$APPNAME] Building rtlsdr-airband for x86"
+  PLATFORM=x86
+fi
+
+# armel
+# /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=f57b617d0d6cd9d483dcf847b03614809e5cd8a9, stripped
+if echo "${FILEOUTPUT}" | grep "ARM" > /dev/null; then
+
+  # ARCH="arm"
+
+  # armhf
+  # Example outputs:
+  # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-armhf.so.1, stripped  # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=921490a07eade98430e10735d69858e714113c56, stripped
+  # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=921490a07eade98430e10735d69858e714113c56, stripped
+  if echo "${FILEOUTPUT}" | grep "armhf" > /dev/null; then
+    ARCH="armhf"
+    echo "[$APPNAME] Building rtlsdr-airband for arm32v7"
+    PLATFORM=armv7-generic
   fi
 
-  FILEOUTPUT=$("${FILEBINARY}" -L "${FILEBINARY}")
-
-  # 32-bit x86
+  # arm64
   # Example output:
-  # /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-i386.so.1, stripped
-  # /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=d48e1d621e9b833b5d33ede3b4673535df181fe0, stripped  
-  if echo "${FILEOUTPUT}" | grep "Intel 80386" > /dev/null; then
-    ARCH="x86"
-    echo "[$APPNAME] Building rtlsdr-airband for x86"
-    PLATFORM=x86
-  fi
-
-  # x86-64
-  # Example output:
-  # /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, stripped
-  # /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=6b0b86f64e36f977d088b3e7046f70a586dd60e7, stripped
-  if echo "${FILEOUTPUT}" | grep "x86-64" > /dev/null; then
-    ARCH="amd64"
-    echo "[$APPNAME] Building rtlsdr-airband for x86"
-    PLATFORM=x86
-  fi
-
-  # armel
-  # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=f57b617d0d6cd9d483dcf847b03614809e5cd8a9, stripped
-  if echo "${FILEOUTPUT}" | grep "ARM" > /dev/null; then
-
-    # ARCH="arm"
-
-    # armhf
-    # Example outputs:
-    # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-armhf.so.1, stripped  # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=921490a07eade98430e10735d69858e714113c56, stripped
-    # /usr/bin/file: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, BuildID[sha1]=921490a07eade98430e10735d69858e714113c56, stripped
-    if echo "${FILEOUTPUT}" | grep "armhf" > /dev/null; then
-      ARCH="armhf"
-      echo "[$APPNAME] Building rtlsdr-airband for arm32v7"
-      PLATFORM=armv7-generic
-    fi
-
-    # arm64
-    # Example output:
-    # /usr/bin/file: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-aarch64.so.1, stripped
-    # /usr/bin/file: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0, BuildID[sha1]=a8d6092fd49d8ec9e367ac9d451b3f55c7ae7a78, stripped
-    if echo "${FILEOUTPUT}" | grep "aarch64" > /dev/null; then
-      ARCH="aarch64"
-      echo "[$APPNAME] Building rtlsdr-airband for arm64"
-      PLATFORM=armv8-generic
-    fi
-
+  # /usr/bin/file: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-aarch64.so.1, stripped
+  # /usr/bin/file: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0, BuildID[sha1]=a8d6092fd49d8ec9e367ac9d451b3f55c7ae7a78, stripped
+  if echo "${FILEOUTPUT}" | grep "aarch64" > /dev/null; then
+    ARCH="aarch64"
+    echo "[$APPNAME] Building rtlsdr-airband for arm64"
+    PLATFORM=armv8-generic
   fi
 
 fi
@@ -82,9 +68,17 @@ if [ -z "${ARCH}" ]; then
 fi
 
 echo "[$APPNAME] Arch is $ARCH"
-echo "[$APPNAME] Attempting to start the build"
-
 echo "[$APPNAME] Using make options PLATFORM=$PLATFORM WITH_SOAPYSDR=1 NFM_MAKE=$NFM_MAKE"
-make PLATFORM="$PLATFORM" WITH_SOAPYSDR=1 NFM_MAKE="$NFM_MAKE"
-make install
-echo "[$APPNAME] rtlsdr-airband deployment finished ok"
+echo "[$APPNAME] Writing build script: /scripts/build_rtl_airband.sh"
+
+# Write build script (to be executed by /etc/cont-init.d/01-build-rtl_airband)
+{
+  echo "#!/usr/bin/env bash"
+  echo "pushd /opt/rtlsdr-airband || exit 1"
+  echo "make PLATFORM=\"$PLATFORM\" WITH_SOAPYSDR=1 NFM_MAKE=\"$NFM_MAKE\""
+  echo "make install"
+  echo "popd"
+} > /scripts/build_rtl_airband.sh
+
+# Make script executable
+chmod a+x /scripts/build_rtl_airband.sh
