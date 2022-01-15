@@ -195,8 +195,12 @@ RUN set -x && \
     # Deploy LimeSuite
     git clone https://github.com/myriadrf/LimeSuite.git /src/LimeSuite && \
     pushd /src/LimeSuite && \
-    BRANCH_LIMESUITE=$(git tag --sort="creatordate" | tail -1) && \
-    git checkout "$BRANCH_LIMESUITE" && \
+    # The upstream repo has not tagged a bunch of updates
+    # For some reason the latest tagged version (ADPD-v17.06.0 as of 15 Jan 22) has a bunch of build artifacts
+    # from his home computer. I can't find a commit where those were deleted so I suspect it was kind of dev branch?
+    # Use the current "latest" master branch for now.
+    # BRANCH_LIMESUITE=$(git tag --sort="creatordate" | tail -1) && \
+    # git checkout "$BRANCH_LIMESUITE" && \
     mkdir -p /src/LimeSuite/build && \
     pushd /src/LimeSuite/build && \
     cmake ../ -DCMAKE_BUILD_TYPE=Release && \
