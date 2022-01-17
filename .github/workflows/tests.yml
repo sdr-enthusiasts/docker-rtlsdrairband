@@ -143,15 +143,10 @@ jobs:
         run: |
           echo "Architecture suffix: ${{ env.ARCH_TAG }}"
 
-      # Patch Dockerfile for NFM build
-      -
-        name: Patch Dockerfile for NFM build
-        run: sed "s/NFM_MAKE=\"\"/NFM_MAKE=1/g" < Dockerfile > Dockerfile.NFM
-
       # Patch Dockerfile to include first-run build of rtl_airband
       - 
         name: Patch Dockerfile to include first-run build of rtl_airband
-        run: echo "RUN /etc/cont-init.d/01-build-rtl_airband" >> Dockerfile.NFM
+        run: echo "RUN /etc/cont-init.d/01-build-rtl_airband" >> Dockerfile
 
       # Test container build for all supported platforms (defined above)
       -
@@ -159,7 +154,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile.NFM
+          file: ./Dockerfile
           no-cache: true
           platforms: ${{ matrix.docker-platform }}
           push: false
