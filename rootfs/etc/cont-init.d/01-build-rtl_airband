@@ -118,10 +118,12 @@ else
         2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band: cmake] " $0}'
 
     # Run make
+    # shellcheck disable=SC2016
     make \
         2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band: make] " $0}'
 
     # Install
+    # shellcheck disable=SC2016
     make install \
         2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band: make install] " $0}'
 
