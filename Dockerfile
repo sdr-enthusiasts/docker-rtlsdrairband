@@ -15,7 +15,6 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     ICECAST_MAX_CLIENTS="100" \
     ICECAST_MAX_SOURCES="4" \
     ## RTLSDR AirBand
-    NFM_MAKE=0 \
     RTLSDRAIRBAND_CUSTOMCONFIG="" \
     RTLSDRAIRBAND_RADIO_TYPE="rtlsdr" \
     RTLSDRAIRBAND_GAIN=40 \
@@ -303,8 +302,6 @@ RUN set -x && \
     make install && \
     popd && popd && \
     ldconfig && \
-    # Deploy RTLSDR-Airband
-    bash -x /scripts/rtlsdr-airband-deploy.sh && \
     # install S6 Overlay
     curl -o /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
     bash -x /tmp/deploy-s6-overlay.sh && \
@@ -333,6 +330,7 @@ RUN set -x && \
     # This is done after clean-up to prevent accidental package removal
     unset KEPT_PACKAGES && \
     KEPT_PACKAGES=() && \
+    KEPT_PACKAGES+=(file) && \
     KEPT_PACKAGES+=(g++) && \
     KEPT_PACKAGES+=(libconfig++-dev) && \
     KEPT_PACKAGES+=(libfftw3-dev) && \
@@ -341,6 +339,7 @@ RUN set -x && \
     KEPT_PACKAGES+=(libshout3-dev) && \
     KEPT_PACKAGES+=(libvorbis-dev) && \
     KEPT_PACKAGES+=(make) && \
+    KEPT_PACKAGES+=(cmake) && \
     apt-get install -y --no-install-recommends \
       ${KEPT_PACKAGES[@]} \
       && \

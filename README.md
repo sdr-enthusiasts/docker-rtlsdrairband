@@ -14,9 +14,11 @@ This container runs an Icecast audio server that RTLSDR-Airband can connect to s
 
 Currently, this image should pull and run on the following architectures:
 
-* `amd64`: Linux x86-64 (Builds but is untested. If it works for you let me know!)
-* `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3) (Builds but is untested. If it works for you let me know!)
+* `amd64`: Linux x86-64
+* `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3)
 * `arm64`: ARMv8 64-bit (RPi 3 and 4 64-bit OSes)
+
+During the container's first run, the `rtl_airband` binary will be built with optimisations for your detected CPU. In some instances you may need to override the CPU type. This can be done with the `RTLSDRAIRBAND_BUILD_PLATFORM` environment variable. See below for more detail.
 
 ## Thanks
 
@@ -101,6 +103,7 @@ There are quite a few configuration options this container can accept.
 
 | Variable | Description | Required | Default |
 |----------|-------------|---------|--------|
+| `RTLSDRAIRBAND_BUILD_PLATFORM` | On the container's first run, the `rtl_airband` binary will be built with platform-specific optimisation. The container attempts to auto-detect the platform. If you need to override this, it can be set to `rpiv1`, `rpiv2`, `armv7-generic`, `armv8-generic`, `native` or `default`. See [RTLSDR-Airband Wiki Compilation build options](https://github.com/szpajder/RTLSDR-Airband/wiki/Compilation#build-options) for more information. | No | Auto-detect |
 | `RTLSDRAIRBAND_RADIO_TYPE` | Type of dongle that is providing the radio tuning. Right now, only rtlsdr is usable. If you need something else supported, let me know | No | `rtlsdr` |
 | `RTLSDRAIRBAND_GAIN` | Gain setting for the RTLSDR dongle | No | `25` |
 | `RTLSDRAIRBAND_CORRECTION` | Use this if your dongle has a non-zero frequency tuning error, which requires correcting. Put correction value in ppm here. If the dongle tunes too high, this value shall be positive, negative otherwise. | No | `0` |
@@ -116,6 +119,7 @@ There are quite a few configuration options this container can accept.
 | `LOG_SCANNED_ACTIVITY` | rtlsdr-airband can output what frequencies it has received traffic on. Set this to any non-blank value to enable | `No` | `Unset` |
 | `FFT_SIZE` | This value controls the general audio quality. A larger value means increased CPU usage. Accepted values are powers of two in the range of 256-8192, inclusive. | No | `2048` |
 | `SAMPLE_RATE` | Set the sample rate of the audio stream. See [this](https://github.com/szpajder/RTLSDR-Airband/wiki/Tweaking-sampling-rate-and-FFT-size) for more information. Also see notes below. | No | `2.56` |
+| `NFM_MAKE` | Set to any value to build the `rtl_airband` binary with NFM support, see below. | No | Unset |
 
 * See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces.
 
@@ -176,7 +180,9 @@ In the mounted volume, provide a file named `icecast.xml` with your configuratio
 
 ## NFM
 
-The primary purpose of this container is to monitor VHF airband communications. However, the underlying software is not limited to strictly VHF communications and AM modulation. Using the `fredclausen/rtlsdrairband:latest_nfm` image you have the ability to enable NFM modulation and monitor additional radio communications (as I understand it, things like Railroad communications). This is not enabled in the `latest` tag by default because of the additional CPU overhead required (should be marginal, but not negligible if your hardware is constrained), but if you desire the functionality, please use the `latest_nfm` tag.
+The primary purpose of this container is to monitor VHF airband communications. However, the underlying software is not limited to strictly VHF communications and AM modulation. By setting the environment variable `NFM_MAKE` to any value, the `rtl_airband` binary will be built with NFM support.
+
+This will give `rtl_airband` the ability to enable NFM modulation and monitor additional radio communications (as I understand it, things like Railroad communications). This is not enabled default because of the additional CPU overhead required (should be marginal, but not negligible if your hardware is constrained).
 
 ## Accessing the Web Interface
 
