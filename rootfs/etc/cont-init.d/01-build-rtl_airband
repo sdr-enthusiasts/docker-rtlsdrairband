@@ -19,13 +19,13 @@ else
     CMAKE_CMD=()
 
     # Determine architecture and apply compiler optimisations.
-    # User can set `RTLSDR_BUILD_PLATFORM` to override auto detection if required.
+    # User can set `RTLSDRAIRBAND_BUILD_PLATFORM` to override auto detection if required.
     # May be required for armv7 non-RPi...
 
-    if [[ -n "$RTLSDR_BUILD_PLATFORM" ]]; then
+    if [[ -n "$RTLSDRAIRBAND_BUILD_PLATFORM" ]]; then
 
         # Set cmake to build with user-specified platform.
-        CMAKE_CMD=$("-DPLATFORM=$RTLSDR_BUILD_PLATFORM")
+        CMAKE_CMD=$("-DPLATFORM=$RTLSDRAIRBAND_BUILD_PLATFORM")
 
     else
 
