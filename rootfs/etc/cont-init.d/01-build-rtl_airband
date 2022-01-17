@@ -114,7 +114,7 @@ else
 
     # Run cmake
     # shellcheck disable=SC2016
-    cmake "${CMAKE_CMD[@]}" \
+    cmake "${CMAKE_CMD[@]}" ../ \
         2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band] " $0}'
 
     # Run make
