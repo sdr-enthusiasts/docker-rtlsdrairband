@@ -25,7 +25,7 @@ else
     if [[ -n "$RTLSDRAIRBAND_BUILD_PLATFORM" ]]; then
 
         # Set cmake to build with user-specified platform.
-        CMAKE_CMD+=$("-DPLATFORM=$RTLSDRAIRBAND_BUILD_PLATFORM")
+        CMAKE_CMD+=("-DPLATFORM=$RTLSDRAIRBAND_BUILD_PLATFORM")
 
     else
 
