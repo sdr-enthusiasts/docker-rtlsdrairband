@@ -118,10 +118,12 @@ else
         2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band] " $0}'
 
     # Run make
-    make
+    make \
+        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band] " $0}'
 
     # Install
-    make install
+    make install \
+        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band] " $0}'
 
     popd && popd
 fi
