@@ -115,15 +115,15 @@ else
     # Run cmake
     # shellcheck disable=SC2016
     cmake "${CMAKE_CMD[@]}" ../ \
-        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band] " $0}'
+        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band: cmake] " $0}'
 
     # Run make
     make \
-        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band] " $0}'
+        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band: make] " $0}'
 
     # Install
     make install \
-        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band] " $0}'
+        2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band: make install] " $0}'
 
     popd && popd
 fi
