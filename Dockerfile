@@ -207,6 +207,16 @@ RUN set -x && \
     make install && \
     popd && popd && \
     ldconfig && \
+    # Deploy SoapyRTLTCP
+    git clone https://github.com/pothosware/SoapyRTLTCP.git /src/SoapyRTLTCP && \
+    pushd /src/SoapyRTLTCP && \
+    mkdir -p /src/SoapyRTLTCP/build && \
+    pushd /src/SoapyRTLTCP/build && \
+    cmake ../ -DCMAKE_BUILD_TYPE=Release && \
+    make all && \
+    make install && \
+    popd && popd && \
+    ldconfig && \
     # Deploy SoapyRemote
     git clone https://github.com/pothosware/SoapyRemote.git /src/SoapyRemote && \
     pushd /src/SoapyRemote && \

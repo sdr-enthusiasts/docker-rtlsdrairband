@@ -163,6 +163,7 @@ SoapySDR support for the following hardware is provided:
 * BladeRF
 * PlutoSDR
 * SoapyRemote
+* SoapyRTLTCP
 
 ### Icecast Advanced Mode
 
