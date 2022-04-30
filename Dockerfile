@@ -52,6 +52,8 @@ RUN set -x && \
     TEMP_PACKAGES+=(autoconf) && \
     # logging
     KEPT_PACKAGES+=(gawk) && \
+    # rtlsdr-airband statistics server
+    KEPT_PACKAGES+=(ncat) && \
     # required for S6 overlay
     TEMP_PACKAGES+=(gnupg2) && \
     TEMP_PACKAGES+=(file) && \
