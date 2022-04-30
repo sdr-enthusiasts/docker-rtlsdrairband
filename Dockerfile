@@ -31,7 +31,10 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     SQUELCH="" \
     LOG_SCAN_ACTIVITY="" \
     FFT_SIZE="2048" \
-    SAMPLE_RATE="2.56"
+    SAMPLE_RATE="2.56" \
+    ## Prometheus export
+    ENABLE_PROMETHEUS="" \
+    PROMETHEUS_PORT="8001"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
