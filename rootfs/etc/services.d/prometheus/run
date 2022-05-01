@@ -2,7 +2,7 @@
 #shellcheck shell=bash
 
 if [[ -n "$ENABLE_PROMETHEUS" ]]; then
-    echo -e "HTTP/1.1 200 OK\n\n" | cat - /tmp/rtl_airband_stats.txt | ncat -l "$PROMETHEUS_PORT" > /dev/null 2>&1
+    echo -e "HTTP/1.1 200 OK\nContent-Type: text/plain\n\n" | cat - /tmp/rtl_airband_stats.txt | ncat -l "$PROMETHEUS_PORT" > /dev/null 2>&1
 else
     sleep 86400
 fi
