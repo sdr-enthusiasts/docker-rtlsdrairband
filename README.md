@@ -78,6 +78,8 @@ To the port value you want. In the container startup command, ensure the value y
       - PORT=9000
 ```
 
+Port 8001 is the default port used when `ENABLE_PROMETHEUS` is set. To use another port, set the `PROMETHEUS_PORT` env variable to the desired port. If `ENABLE_PROMETHEUS` is set to any value, Prometheus formatted [metrics](https://github.com/szpajder/RTLSDR-Airband/wiki/Channel-usage-statistics) will be exposed at `containerip:PROMETHEUS_PORT`.
+
 ## Volumes
 
 It is possible to mount `/run/rtlsdir-airband` and provide the container a custom `rtlsdir-airband.conf` or `icecast.xml`. Most users will not want to do this. See [RTLSDR-Advanced Mode](#rtlsdir-airband-advanced-mode) and/or [Icecast Advanced Mode](#icecast-advanced-mode) for more information.
@@ -120,6 +122,8 @@ There are quite a few configuration options this container can accept.
 | `FFT_SIZE` | This value controls the general audio quality. A larger value means increased CPU usage. Accepted values are powers of two in the range of 256-8192, inclusive. | No | `2048` |
 | `SAMPLE_RATE` | Set the sample rate of the audio stream. See [this](https://github.com/szpajder/RTLSDR-Airband/wiki/Tweaking-sampling-rate-and-FFT-size) for more information. Also see notes below. | No | `2.56` |
 | `NFM_MAKE` | Set to any value to build the `rtl_airband` binary with NFM support, see below. | No | Unset |
+| `ENABLE_PROMETHEUS` | Set to any value to enable rtlsdr-airband generation of Prometheus formatted channel usage statistics | No | `Unset` |
+| `PROMETHEUS_PORT` | Port to expose RTLSDR-Airband [channel usage statistics](https://github.com/szpajder/RTLSDR-Airband/wiki/Channel-usage-statistics) on | No | `8001` |
 
 * See [the RTSLDR-Airband manual](https://github.com/szpajder/RTLSDR-Airband/wiki/Icecast-metadata-updates-in-scan-mode) for more information, keeping in mind to not include the parenthesis or leading/trailing spaces.
 
@@ -163,6 +167,7 @@ SoapySDR support for the following hardware is provided:
 * BladeRF
 * PlutoSDR
 * SoapyRemote
+* SoapyRTLTCP
 
 ### Icecast Advanced Mode
 

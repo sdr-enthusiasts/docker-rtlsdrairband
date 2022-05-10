@@ -31,7 +31,10 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     SQUELCH="" \
     LOG_SCAN_ACTIVITY="" \
     FFT_SIZE="2048" \
-    SAMPLE_RATE="2.56"
+    SAMPLE_RATE="2.56" \
+    ## Prometheus export
+    ENABLE_PROMETHEUS="" \
+    PROMETHEUS_PORT="8001"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -49,6 +52,8 @@ RUN set -x && \
     TEMP_PACKAGES+=(autoconf) && \
     # logging
     KEPT_PACKAGES+=(gawk) && \
+    # rtlsdr-airband statistics server
+    KEPT_PACKAGES+=(ncat) && \
     # required for S6 overlay
     TEMP_PACKAGES+=(gnupg2) && \
     TEMP_PACKAGES+=(file) && \
@@ -202,6 +207,16 @@ RUN set -x && \
     # git checkout "$BRANCH_LIMESUITE" && \
     mkdir -p /src/LimeSuite/build && \
     pushd /src/LimeSuite/build && \
+    cmake ../ -DCMAKE_BUILD_TYPE=Release && \
+    make all && \
+    make install && \
+    popd && popd && \
+    ldconfig && \
+    # Deploy SoapyRTLTCP
+    git clone https://github.com/pothosware/SoapyRTLTCP.git /src/SoapyRTLTCP && \
+    pushd /src/SoapyRTLTCP && \
+    mkdir -p /src/SoapyRTLTCP/build && \
+    pushd /src/SoapyRTLTCP/build && \
     cmake ../ -DCMAKE_BUILD_TYPE=Release && \
     make all && \
     make install && \
