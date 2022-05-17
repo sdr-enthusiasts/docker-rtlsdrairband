@@ -35,7 +35,7 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 		    sed -i "s/<port>8000<\/port>/<port>$PORT<\/port>/g" /usr/local/etc/icecast.xml
 		fi
 	else
-		if [ -f "/run/rtlsdr-airband/icecast.conf" ]; then
+		if [ -f "/run/rtlsdr-airband/icecast.xml" ]; then
 			echo "Custom config provided. Ignoring Icecast enviornment variables"
 		else
 			echo "Icecast custom config option set but file not found. Aborting."
