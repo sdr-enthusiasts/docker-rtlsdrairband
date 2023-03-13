@@ -224,7 +224,7 @@ devices: (
   correction = 10;
   mode="scan";
   channels: (
-  { 
+  {
     # Put your local air traffic frequencies here. Make a label for each frequency:
     freqs = ( 132.083 , 135.5063 , 135.9545 , 132.2075 , 132.3154 , 133.3569 , 125.9794 , 132.8549 , 132.7553 , 135.9794 , 122.83 , 124.4316 , 134.7055 , 136.4648 );
     labels = ("MUAC Delta High" , "MUAC Delta Medium" , "MUAC Delta Low" , "MUAC Koksy" , "MUAC Lux High" , "MUAC Lux Low" , "MUAC Olno High" , "MUAC Olno Low" , "MUAC Nicky High" , "MUAC Nicky Low" , "MUAC Ruhr High" , "MUAC Ruhr Low" , "MUAC Jever High" , "MUAC Jever Low" );
