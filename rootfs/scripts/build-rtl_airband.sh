@@ -1,10 +1,10 @@
-#!/usr/bin/with-contenv bash
+#!/bin/bash
 # shellcheck shell=bash
 
 set -e
 
-# Check to see if rtl_airband exists -- note we need to rebuild if NFM is enabled even if a binary is included in the container
-if [[ -e "/usr/local/bin/rtl_airband" ]] && [[ -z "$NFM_MAKE" ]]; then
+# Check to see if rtl_airband exists
+if [[ -e "/usr/local/bin/rtl_airband" ]]; then
     echo "/usr/local/bin/rtl_airband already exists, not building"
 else
     echo "Building rtl_airband optimised for this host's CPU"
