@@ -1,4 +1,4 @@
-FROM debian:bullseye-20211220-slim
+FROM ghcr.io/sdr-enthusiasts/docker-baseimage:base
 
 ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
@@ -21,7 +21,7 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     RTLSDRAIRBAND_CORRECTION="" \
     RTLSDRAIRBAND_MODE="multichannel" \
     RTLSDRAIRBAND_FREQS="" \
-    RTLSDRAIRBAND_SERIAL=""; \
+    RTLSDRAIRBAND_SERIAL="" \
     RTLSDRAIRBAND_MOUNTPOINT="GND.mp3" \
     RTLSDRAIRBAND_NAME="Tower" \
     RTLSDRAIRBAND_GENRE="ATC" \
@@ -33,7 +33,7 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     FFT_SIZE="2048" \
     SAMPLE_RATE="2.56" \
     ## Prometheus export
-    ENABLE_PROMETHEUS="" \
+    ENABLE_PROMETHEUS="true" \
     PROMETHEUS_PORT="8001"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -317,20 +317,20 @@ RUN set -x && \
     make install && \
     popd && popd && \
     ldconfig && \
-    # install S6 Overlay
-    curl -o /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
-    bash -x /tmp/deploy-s6-overlay.sh && \
+    # # install S6 Overlay
+    # curl -o /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
+    # bash -x /tmp/deploy-s6-overlay.sh && \
     # Deploy healthchecks framework
-    git clone \
-      --depth=1 \
-      "https://github.com/mikenye/docker-healthchecks-framework.git" \
-      /opt/healthchecks-framework \
-      && \
-    rm -rf \
-      /opt/healthchecks-framework/.git* \
-      /opt/healthchecks-framework/*.md \
-      /opt/healthchecks-framework/tests \
-      && \
+    # git clone \
+    #   --depth=1 \
+    #   "https://github.com/mikenye/docker-healthchecks-framework.git" \
+    #   /opt/healthchecks-framework \
+    #   && \
+    # rm -rf \
+    #   /opt/healthchecks-framework/.git* \
+    #   /opt/healthchecks-framework/*.md \
+    #   /opt/healthchecks-framework/tests \
+    #   && \
     # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
     git clone https://github.com/szpajder/RTLSDR-Airband.git /opt/rtlsdr-airband && \
     pushd /opt/rtlsdr-airband && \
@@ -358,7 +358,10 @@ RUN set -x && \
     apt-get install -y --no-install-recommends \
       ${KEPT_PACKAGES[@]} \
       && \
+    # Now compile and install rtlsdr_airband
+    /scripts/build-rtl_airband.sh && \
     # Clean up
+    apt-get clean && \
     rm -rf /src/* /tmp/* /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/init" ]

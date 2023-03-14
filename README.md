@@ -193,6 +193,75 @@ This will give `rtl_airband` the ability to enable NFM modulation and monitor ad
 
 The web interface for the container can be found at `containerip:8000` or `containerip:port` if `PORT` ENV variable is set.
 
+## Feeding Radarbox
+
+First go to the [Radarbox website](https://www.radarbox.com/sharing-vhf) and create a VHF sharing key.
+The easiest way to feed Radarbox is by using a custom `rtl_airband.conf` file:
+
+* Map a volume to this container directory: `/run/rtlsdr-airband` by making sure that the following (or something similar) is added to your `docker-compose.yml` file:
+
+```yaml
+  volumes:
+      - /opt/adsb/airband:/run/rtlsdr-airband
+```
+
+* Then save the following text to `/opt/adsb/airband/rtl_airband.conf`(make sure to update the parameters below to match your configuration and to match your Radarbox credentials):
+
+```python
+# Refer to https://github.com/szpajder/RTLSDR-Airband/wiki
+# for description of keywords and config syntax.
+
+# Make sure you update the parameters below to match your configuration and your Radarbox credentials
+
+stats_filepath = "/tmp/rtl_airband_stats.txt";
+multiple_demod_threads = true;
+pidfile = "/var/tmp/rtl_airband.pid";
+fft_size=512;
+devices: (
+{ type = "rtlsdr";
+  serial = "replace-this-with-your-airband-sdr-serial-string";
+  gain = 49.6;
+  correction = 10;
+  mode="scan";
+  channels: (
+  {
+    # Put your local air traffic frequencies here. Make a label for each frequency:
+    freqs = ( 132.083 , 135.5063 , 135.9545 , 132.2075 , 132.3154 , 133.3569 , 125.9794 , 132.8549 , 132.7553 , 135.9794 , 122.83 , 124.4316 , 134.7055 , 136.4648 );
+    labels = ("MUAC Delta High" , "MUAC Delta Medium" , "MUAC Delta Low" , "MUAC Koksy" , "MUAC Lux High" , "MUAC Lux Low" , "MUAC Olno High" , "MUAC Olno Low" , "MUAC Nicky High" , "MUAC Nicky Low" , "MUAC Ruhr High" , "MUAC Ruhr Low" , "MUAC Jever High" , "MUAC Jever Low" );
+
+    outputs: (
+    {   # This section defines the details of your feeder to Radarbox. If you don't feed RB, set "disable = true;"
+        disable = false;
+        type = "icecast";
+        server = "audio.rb24.com";
+        port = 8000;
+        # Put your Radarbox Serial Key and account details below:
+        mountpoint = "EXTVHF00xxxx";
+        username = "my_radarbox@email.com";
+        password = "my_radarbox_password";
+        # Give your feeder a descriptive name:
+        name = "EuroControl MUAC Multi Freq Scan";
+        genre = "ATC";
+        send_scan_freq_tags = false;
+    }
+    ,
+    {   # This section defines your local website at port 8000. You can change the mountpoint and name, but
+        # please don't change the username/password unless you create a custom Icecast setup:
+        disable = false;
+        type = "icecast";
+        server = "127.0.0.1";
+        port = 8000;
+        mountpoint = "eurocontrol.mp3";
+        username = "source";
+        password = "rtlsdrairband";
+        name = "EHBK Eurocontrol MUAC";
+        genre = "ATC";
+        send_scan_freq_tags = true;
+     });
+  });
+});
+```
+
 ## Logging
 
 * All processes are logged to the container's stdout, and can be viewed with `docker logs [-f] container`.
