@@ -38,7 +38,7 @@ docker run \
  -p 8000:8000 \
  -e RTLSDRAIRBAND_FREQS=123.9 \
  --device /dev/bus/usb:/dev/bus/usb \
-fredclausen/rtlsdrairband
+ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest_nohealthcheck
 ```
 
 You should obviously replace `RTLSDRAIRBAND_FREQS` with a frequency you wish to monitor.
@@ -50,7 +50,7 @@ version: '2.0'
 
 services:
   rtlsdirairband:
-    image: fredclausen/rtlsdrairband
+    image: ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest_nohealthcheck
     tty: true
     container_name: rtlsdrairband
     restart: always
@@ -268,4 +268,4 @@ devices: (
 
 ## Getting Help
 
-You can [log an issue](https://github.com/fredclausen/docker-rtlsdrairband/issues) on the project's GitHub.
+You can [log an issue](https://github.com/sdr-enthusiasts/docker-rtlsdrairband/issues) on the project's GitHub.
