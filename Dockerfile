@@ -332,7 +332,7 @@ RUN set -x && \
     #   /opt/healthchecks-framework/tests \
     #   && \
     # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
-    git clone https://github.com/szpajder/RTLSDR-Airband.git /opt/rtlsdr-airband && \
+    git clone https://github.com/charlie-foxtrot/RTLSDR-Airband.git /opt/rtlsdr-airband && \
     pushd /opt/rtlsdr-airband && \
     BRANCH_RTL_AIRBAND=$(git tag | tail -1) && \
     git checkout "$BRANCH_RTL_AIRBAND" && \
