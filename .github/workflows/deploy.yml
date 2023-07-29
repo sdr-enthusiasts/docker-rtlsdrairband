@@ -6,7 +6,12 @@ on:
     inputs:
       reason:
         required: true
-        description: 'Reason for running this workflow'
+        description: "Reason for running this workflow"
+      use_test_image:
+        required: false
+        type: boolean
+        description: "Use base image testpr"
+        default: false
 
   push:
     branches:
@@ -18,7 +23,6 @@ on:
       - rootfs/**
 
 jobs:
-
   workflow-dispatch:
     name: Triggered via Workflow Dispatch?
     # only run this step if workflow dispatch triggered
@@ -31,8 +35,10 @@ jobs:
       - name: Log dispatch reason
         env:
           INPUTS_REASON: ${{ github.event.inputs.reason }}
+          INPUTS_USE_TEST_IMAGE: ${{ github.event.inputs.use_test_image }}
         run: |
           echo "Workflow dispatch reason: $INPUTS_REASON"
+          echo "Use test image: $INPUTS_USE_TEST_IMAGE"
 
   deploy:
     name: Deploy
@@ -45,6 +51,13 @@ jobs:
       dockerhub_profile: fredclausen
       dockerhub_repo: rtlsdrairband
       get_version_method: git_commit_hash_short
+      build_latest: ${{ github.event.inputs.use_test_image == 'false' }}
+      build_baseimage_test: ${{ github.event.inputs.use_test_image == 'true' }}
+      # only build the entire stack if we are not using the test image
+      build_version_specific: ${{ github.event.inputs.use_test_image == 'false' }}
+      build_platform_specific: ${{ github.event.inputs.use_test_image == 'false' }}
+      build_nohealthcheck: ${{ github.event.inputs.use_test_image == 'false' }}
+      build_baseimage_url: :base/:base-test-pr
     secrets:
       ghcr_token: ${{ secrets.GITHUB_TOKEN }}
       dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
