@@ -334,6 +334,8 @@ RUN set -x && \
   # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
   git clone https://github.com/charlie-foxtrot/RTLSDR-Airband.git /opt/rtlsdr-airband && \
   pushd /opt/rtlsdr-airband && \
+  # fix build by removing -Wall  from CFLAGS in CMakeLists.txt
+  sed -i 's/-Wall //g' CMakeLists.txt && \
   BRANCH_RTL_AIRBAND=$(git tag | tail -1) && \
   git checkout "$BRANCH_RTL_AIRBAND" && \
   echo "$BRANCH_RTL_AIRBAND" > /CONTAINER_VERSION && \
