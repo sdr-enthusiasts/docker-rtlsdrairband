@@ -34,7 +34,8 @@ ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
   SAMPLE_RATE="2.56" \
   ## Prometheus export
   ENABLE_PROMETHEUS="true" \
-  PROMETHEUS_PORT="8001"
+  PROMETHEUS_PORT="8001" \
+  S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
