@@ -115,8 +115,8 @@ RUN set -x && \
   mkdir -p /etc/icecast2/logs && \
   chown -R icecast2 /etc/icecast2 && \
   # Deploy rtl-sdr
-  #git clone git://git.osmocom.org/rtl-sdr.git /src/rtl-sdr && \
-  git clone https://github.com/rtlsdrblog/rtl-sdr-blog.git /src/rtl-sdr && \
+  git clone git://git.osmocom.org/rtl-sdr.git /src/rtl-sdr && \
+  #git clone https://github.com/rtlsdrblog/rtl-sdr-blog.git /src/rtl-sdr && \
   pushd /src/rtl-sdr && \
   git checkout "${BRANCH_RTLSDR}" && \
   echo "rtl-sdr ${BRANCH_RTLSDR}" >> /VERSIONS && \
