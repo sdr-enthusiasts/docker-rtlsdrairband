@@ -2,7 +2,7 @@
 # shellcheck shell=bash
 
 if [ -z "${ICECAST_DISABLE}" ]; then
-	if [ -z "${ICECAST_CUSTOMCONFIG}" ]; then 
+	if [ -z "${ICECAST_CUSTOMCONFIG}" ]; then
 		if [ -n "${ICECAST_ADMIN_PASSWORD}" ]; then
 		    sed -i "s/<admin-password>[^<]*<\/admin-password>/<admin-password>$ICECAST_ADMIN_PASSWORD<\/admin-password>/g" /usr/local/etc/icecast.xml
 		fi
@@ -36,7 +36,7 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 		fi
 	else
 		if [ -f "/run/rtlsdr-airband/icecast.xml" ]; then
-			echo "Custom config provided. Ignoring Icecast enviornment variables"
+			echo "Custom config provided. Ignoring Icecast environment variables"
 		else
 			echo "Icecast custom config option set but file not found. Aborting."
 			exit 1

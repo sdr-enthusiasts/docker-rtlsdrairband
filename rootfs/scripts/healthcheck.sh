@@ -1,4 +1,5 @@
 #!/command/with-contenv bash
+#shellcheck shell=bash
 # shellcheck disable=SC1091
 set -e
 
@@ -30,7 +31,7 @@ if [[ -n "$ICECAST_CONFIG_LINES" ]]; then
 
     # For each icecast connection stanza...
     while read -r ICECAST_CONFIG_LINE; do
-        
+
         # Get icecast server hostname/IP
         ICECAST_HOSTNAME=$(echo "$ICECAST_CONFIG_LINE" | grep -oP 'server\s*?=\s*?\K".*?"\s*;' | tr -d '";')
         ICECAST_IP=$(get_ipv4 "$ICECAST_HOSTNAME")
