@@ -63,7 +63,7 @@ jobs:
 
       # Patch Dockerfile to include first-run build of rtl_airband
       - name: Patch Dockerfile to include first-run build of rtl_airband
-        run: echo "RUN bash -x /etc/cont-init.d/01-build-rtl_airband" >> Dockerfile
+        run: echo "RUN bash -x /etc/s6-overlay/scripts/01-build-rtl_airband" >> Dockerfile
 
       # Test container build for all supported platforms (defined above)
       - name: Test Build ${{ matrix.docker-platform }}
@@ -130,7 +130,7 @@ jobs:
 
       # Patch Dockerfile to include first-run build of rtl_airband
       - name: Patch Dockerfile to include first-run build of rtl_airband
-        run: echo "RUN MAKE_NFM=true bash -x /etc/cont-init.d/01-build-rtl_airband" >> Dockerfile
+        run: echo "RUN MAKE_NFM=true bash -x /etc/s6-overlay/scripts/01-build-rtl_airband" >> Dockerfile
 
       # Test container build for all supported platforms (defined above)
       - name: Test Build ${{ matrix.docker-platform }}
