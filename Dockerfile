@@ -319,6 +319,15 @@ RUN set -x && \
   make install && \
   popd && popd && \
   ldconfig && \
+  # Deploy libmirisdr-4
+  git clone https://github.com/f4exb/libmirisdr-4 /src/libmirisdr-4 && \
+  pushd /src/libmirisdr-4 && \
+  mkdir -p /src/libmirisdr-4/build && \
+  pushd /src/libmirisdr-4/build && \
+  cmake ../ && \
+  VERBOSE=1 make install && \
+  popd && popd && \
+  ldconfig && \
   # # install S6 Overlay
   # curl -o /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
   # bash -x /tmp/deploy-s6-overlay.sh && \
@@ -360,14 +369,17 @@ RUN set -x && \
   KEPT_PACKAGES+=(libvorbis-dev) && \
   KEPT_PACKAGES+=(make) && \
   KEPT_PACKAGES+=(cmake) && \
+  KEPT_PACKAGES+=(libusb-1.0-0-dev) && \
+  KEPT_PACKAGES+=(libpulse-dev) && \
+  KEPT_PACKAGES+=(git) && \
   apt-get install -y --no-install-recommends \
   ${KEPT_PACKAGES[@]} \
   && \
   # Now compile and install rtlsdr_airband
   /scripts/build-rtl_airband.sh && \
   # Clean up
-  apt-get clean && \
-  rm -rf /src/* /tmp/* /var/lib/apt/lists/*
+ apt-get clean && \
+ rm -rf /src/* /tmp/* /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/init" ]
 
