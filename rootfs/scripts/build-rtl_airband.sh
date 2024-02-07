@@ -38,7 +38,7 @@ else
             # If not available, build with no optimisations.
             # This should never happen, as it's included in the Dockerfile.
             echo "ERROR: 'file' (libmagic) not available, cannot detect architecture! Will build with no optimisations."
-            CMAKE_CMD+=("-DPLATFORM=default")
+            CMAKE_CMD+=("-DPLATFORM=generic")
 
         else
 
@@ -88,16 +88,16 @@ else
                 # /usr/bin/file: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-aarch64.so.1, stripped
                 # /usr/bin/file: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0, BuildID[sha1]=a8d6092fd49d8ec9e367ac9d451b3f55c7ae7a78, stripped
                 if echo "${FILEOUTPUT}" | grep "aarch64" > /dev/null; then
-                    echo "Building with \"armv8-generic\" optimisations."
-                    CMAKE_CMD+=("-DPLATFORM=armv8-generic")
+                    echo "Building with \"generic\" optimisations."
+                    CMAKE_CMD+=("-DPLATFORM=generic")
                 fi
 
             fi
 
             # If we don't have an architecture at this point, there's been a problem and we can't continue
-            if [ -z "${ARCH}" ]; then
+            if ! [[ ${CMAKE_CMD[*]} =~ 'DPLATFORM' ]]; then
                 echo "WARNING: Unable to determine architecture, will build with no optimisations."
-                CMAKE_CMD+=("-DPLATFORM=default")
+                CMAKE_CMD+=("-DPLATFORM=generic")
             fi
         fi
     fi
