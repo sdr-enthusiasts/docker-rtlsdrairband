@@ -378,8 +378,8 @@ RUN set -x && \
   # Now compile and install rtlsdr_airband
   /scripts/build-rtl_airband.sh && \
   # Clean up
- apt-get clean && \
- rm -rf /src/* /tmp/* /var/lib/apt/lists/*
+  apt-get clean && \
+  rm -rf /src/* /tmp/* /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/init" ]
 
