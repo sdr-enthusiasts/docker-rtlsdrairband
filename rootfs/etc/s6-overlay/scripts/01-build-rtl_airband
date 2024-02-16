@@ -4,7 +4,7 @@
 set -e
 
 # Check to see if rtl_airband exists -- note we need to rebuild if NFM is enabled even if a binary is included in the container
-if [[ -e "/usr/local/bin/rtl_airband" ]] && [[ -z "$NFM_MAKE" ]]; then
+if [[ -e "/usr/local/bin/rtl_airband" ]] && [[ -z "$NFM_MAKE" ]] && [[ -z "$RTLSDRAIRBAND_BUILD_PLATFORM" ]]; then
     echo "/usr/local/bin/rtl_airband already exists, not building"
 else
     echo "Building rtl_airband optimised for this host's CPU"
@@ -49,8 +49,8 @@ else
             # /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-i386.so.1, stripped
             # /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=d48e1d621e9b833b5d33ede3b4673535df181fe0, stripped
             if echo "${FILEOUTPUT}" | grep "Intel 80386" > /dev/null; then
-                echo "Building with \"native\" optimisations."
-                CMAKE_CMD+=("-DPLATFORM=native")
+                echo "Building with \"generic\" optimisations."
+                CMAKE_CMD+=("-DPLATFORM=generic")
             fi
 
             # x86-64
@@ -58,8 +58,8 @@ else
             # /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, stripped
             # /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=6b0b86f64e36f977d088b3e7046f70a586dd60e7, stripped
             if echo "${FILEOUTPUT}" | grep "x86-64" > /dev/null; then
-                echo "Building with \"native\" optimisations."
-                CMAKE_CMD+=("-DPLATFORM=native")
+                echo "Building with \"generic\" optimisations."
+                CMAKE_CMD+=("-DPLATFORM=generic")
             fi
 
             # armel
