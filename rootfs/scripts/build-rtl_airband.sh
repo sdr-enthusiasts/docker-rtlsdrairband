@@ -49,8 +49,8 @@ else
             # /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-i386.so.1, stripped
             # /usr/bin/file: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=d48e1d621e9b833b5d33ede3b4673535df181fe0, stripped
             if echo "${FILEOUTPUT}" | grep "Intel 80386" > /dev/null; then
-                echo "Building with \"native\" optimisations."
-                CMAKE_CMD+=("-DPLATFORM=native")
+                echo "Building with \"generic\" optimisations."
+                CMAKE_CMD+=("-DPLATFORM=generic")
             fi
 
             # x86-64
@@ -58,8 +58,8 @@ else
             # /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, stripped
             # /usr/bin/file: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=6b0b86f64e36f977d088b3e7046f70a586dd60e7, stripped
             if echo "${FILEOUTPUT}" | grep "x86-64" > /dev/null; then
-                echo "Building with \"native\" optimisations."
-                CMAKE_CMD+=("-DPLATFORM=native")
+                echo "Building with \"generic\" optimisations."
+                CMAKE_CMD+=("-DPLATFORM=generic")
             fi
 
             # armel
@@ -126,6 +126,9 @@ else
     # shellcheck disable=SC2016
     make install \
         2>&1 | stdbuf -o0 sed --unbuffered '/^$/d' | stdbuf -o0 awk '{print "[building rtlair_band: make install] " $0}'
+
+    # Clean up build directory
+    rm -rf /opt/rtlsdr-airband/build > /dev/null 2>&1
 
     # Change back to original directory
     popd > /dev/null 2>&1
