@@ -6,8 +6,8 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 	sed -i "s/gain = [^<]*; # device 1/gain = $RTLSDRAIRBAND_GAIN; # device 1/g" /usr/local/etc/rtl_airband.conf
 
 	if [ -n "${ENABLE_PROMETHEUS}" ]; then
-		grep -qv "stats_filepath = \"/tmp/rtl_airband_stats.txt\";" /usr/local/etc/rtl_airband.conf && \
-			sed -i "1istats_filepath = \"/tmp/rtl_airband_stats.txt\";" /usr/local/etc/rtl_airband.conf
+		grep -qs "stats_filepath = \"/tmp/rtl_airband_stats.txt\";" /usr/local/etc/rtl_airband.conf || \
+            sed -i "1istats_filepath = \"/tmp/rtl_airband_stats.txt\";" /usr/local/etc/rtl_airband.conf
 	fi
 
 	if [ -n "${RTLSDRAIRBAND_CORRECTION}" ]; then
