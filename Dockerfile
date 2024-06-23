@@ -104,8 +104,8 @@ RUN set -x && \
   ${TEMP_PACKAGES[@]} \
   && \
   # icecast install
-  sh -c "echo deb-src http://download.opensuse.org/repositories/multimedia:/xiph/Debian_9.0/ ./ >>/etc/apt/sources.list.d/icecast.list" && \
-  curl -s --location http://icecast.org/multimedia-obs.key | apt-key add - && \
+  # sh -c "echo deb-src http://download.opensuse.org/repositories/multimedia:/xiph/Debian_9.0/ ./ >>/etc/apt/sources.list.d/icecast.list" && \
+  # curl -s --location http://icecast.org/multimedia-obs.key | apt-key add - && \
   KEPT_PACKAGES+=(icecast2) && \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -328,20 +328,6 @@ RUN set -x && \
   VERBOSE=1 make install && \
   popd && popd && \
   ldconfig && \
-  # # install S6 Overlay
-  # curl -o /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
-  # bash -x /tmp/deploy-s6-overlay.sh && \
-  # Deploy healthchecks framework
-  # git clone \
-  #   --depth=1 \
-  #   "https://github.com/mikenye/docker-healthchecks-framework.git" \
-  #   /opt/healthchecks-framework \
-  #   && \
-  # rm -rf \
-  #   /opt/healthchecks-framework/.git* \
-  #   /opt/healthchecks-framework/*.md \
-  #   /opt/healthchecks-framework/tests \
-  #   && \
   # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
   git clone https://github.com/charlie-foxtrot/RTLSDR-Airband.git /opt/rtlsdr-airband && \
   pushd /opt/rtlsdr-airband && \
