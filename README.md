@@ -37,7 +37,8 @@ docker run \
  --name rtlsdr-airband \
  -p 8000:8000 \
  -e RTLSDRAIRBAND_FREQS=123.9 \
- --device /dev/bus/usb:/dev/bus/usb \
+ --device-cgroup-rule 'c 189:* rwm' \
+ --volume /dev/bus/usb:/dev/bus/usb:ro \
 ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest_nohealthcheck
 ```
 
@@ -54,8 +55,10 @@ services:
     tty: true
     container_name: rtlsdrairband
     restart: always
-    devices:
-      - /dev/bus/usb:/dev/bus/usb
+    device_cgroup_rules:
+      - 'c 189:* rwm'
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb:ro
     ports:
       - 8000:8000
     environment:
