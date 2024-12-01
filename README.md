@@ -52,11 +52,10 @@ version: "2.0"
 services:
   rtlsdirairband:
     image: ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest_nohealthcheck
-    tty: true
     container_name: rtlsdrairband
     restart: always
     device_cgroup_rules:
-      - 'c 189:* rwm'
+      - "c 189:* rwm"
     volumes:
       - /dev/bus/usb:/dev/bus/usb:ro
     ports:
