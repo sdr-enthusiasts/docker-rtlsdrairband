@@ -1,4 +1,4 @@
-FROM ghcr.io/sdr-enthusiasts/docker-baseimage:base
+FROM ghcr.io/sdr-enthusiasts/docker-baseimage:soapy-full
 
 ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
   S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
@@ -114,19 +114,6 @@ RUN set -x && \
   && \
   mkdir -p /etc/icecast2/logs && \
   chown -R icecast2 /etc/icecast2 && \
-  # Deploy rtl-sdr
-  git clone https://gitea.osmocom.org/sdr/rtl-sdr.git /src/rtl-sdr && \
-  #git clone https://github.com/rtlsdrblog/rtl-sdr-blog.git /src/rtl-sdr && \
-  pushd /src/rtl-sdr && \
-  git checkout "${BRANCH_RTLSDR}" && \
-  echo "rtl-sdr ${BRANCH_RTLSDR}" >> /VERSIONS && \
-  mkdir -p /src/rtl-sdr/build && \
-  pushd /src/rtl-sdr/build && \
-  cmake ../ -DINSTALL_UDEV_RULES=ON -Wno-dev && \
-  make -Wstringop-truncation && \
-  make -Wstringop-truncation install && \
-  cp -v /src/rtl-sdr/rtl-sdr.rules /etc/udev/rules.d/ && \
-  popd && popd && \
   # Deploy bladeRF
   git clone https://github.com/Nuand/bladeRF.git /src/bladeRF && \
   pushd /src/bladeRF && \
@@ -161,43 +148,6 @@ RUN set -x && \
   make install && \
   popd && popd && \
   ldconfig && \
-  # Deploy airspy
-  git clone https://github.com/airspy/airspyone_host.git /src/airspyone_host && \
-  pushd /src/airspyone_host && \
-  BRANCH_AIRSPYONE_HOST=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_AIRSPYONE_HOST" && \
-  mkdir -p /src/airspyone_host/build && \
-  pushd /src/airspyone_host/build && \
-  cmake ../ -DCMAKE_BUILD_TYPE=Release -DINSTALL_UDEV_RULES=ON && \
-  make all && \
-  make install && \
-  popd && popd && \
-  ldconfig && \
-  # Deploy airspyhf
-  git clone https://github.com/airspy/airspyhf.git /src/airspyhf && \
-  pushd /src/airspyhf && \
-  BRANCH_AIRSPYHF=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_AIRSPYHF" && \
-  mkdir -p /src/airspyhf/build && \
-  pushd /src/airspyhf/build && \
-  cmake ../ -DCMAKE_BUILD_TYPE=Release -DINSTALL_UDEV_RULES=ON && \
-  make all && \
-  make install && \
-  popd && popd && \
-  ldconfig && \
-  # Deploy SoapySDR
-  git clone https://github.com/pothosware/SoapySDR.git /src/SoapySDR && \
-  pushd /src/SoapySDR && \
-  BRANCH_SOAPYSDR=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYSDR" && \
-  mkdir -p /src/SoapySDR/build && \
-  pushd /src/SoapySDR/build && \
-  cmake ../ -DCMAKE_BUILD_TYPE=Release && \
-  make all && \
-  make test && \
-  make install && \
-  popd && popd && \
-  ldconfig && \
   # Deploy LimeSuite
   git clone https://github.com/myriadrf/LimeSuite.git /src/LimeSuite && \
   pushd /src/LimeSuite && \
@@ -214,16 +164,6 @@ RUN set -x && \
   make install && \
   popd && popd && \
   ldconfig && \
-  # Deploy SoapyRTLTCP
-  git clone https://github.com/pothosware/SoapyRTLTCP.git /src/SoapyRTLTCP && \
-  pushd /src/SoapyRTLTCP && \
-  mkdir -p /src/SoapyRTLTCP/build && \
-  pushd /src/SoapyRTLTCP/build && \
-  cmake ../ -DCMAKE_BUILD_TYPE=Release && \
-  make all && \
-  make install && \
-  popd && popd && \
-  ldconfig && \
   # Deploy SoapyRemote
   git clone https://github.com/pothosware/SoapyRemote.git /src/SoapyRemote && \
   pushd /src/SoapyRemote && \
@@ -231,18 +171,6 @@ RUN set -x && \
   git checkout "$BRANCH_SOAPYREMOTE" && \
   mkdir -p /src/SoapyRemote/build && \
   pushd /src/SoapyRemote/build && \
-  cmake ../ -DCMAKE_BUILD_TYPE=Release && \
-  make all && \
-  make install && \
-  popd && popd && \
-  ldconfig && \
-  # Deploy SoapyRTLSDR
-  git clone https://github.com/pothosware/SoapyRTLSDR.git /src/SoapyRTLSDR && \
-  pushd /src/SoapyRTLSDR && \
-  BRANCH_SOAPYRTLSDR=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYRTLSDR" && \
-  mkdir -p /src/SoapyRTLSDR/build && \
-  pushd /src/SoapyRTLSDR/build && \
   cmake ../ -DCMAKE_BUILD_TYPE=Release && \
   make all && \
   make install && \
@@ -284,30 +212,6 @@ RUN set -x && \
   make install && \
   popd && popd && \
   ldconfig && \
-  # Deplot SoapyAirspy
-  git clone https://github.com/pothosware/SoapyAirspy.git /src/SoapyAirspy && \
-  pushd /src/SoapyAirspy && \
-  BRANCH_SOAPYAIRSPY=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYAIRSPY" && \
-  mkdir -p /src/SoapyAirspy/build && \
-  pushd /src/SoapyAirspy/build && \
-  cmake ../ -DCMAKE_BUILD_TYPE=Release && \
-  make all && \
-  make install && \
-  popd && popd && \
-  ldconfig && \
-  # Deploy SoapyAirspyHF
-  git clone https://github.com/pothosware/SoapyAirspyHF.git /src/SoapyAirspyHF && \
-  pushd /src/SoapyAirspyHF && \
-  BRANCH_SOAPYAIRSPYHF=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYAIRSPYHF" && \
-  mkdir -p /src/SoapyAirspyHF/build && \
-  pushd /src/SoapyAirspyHF/build && \
-  cmake ../ -DCMAKE_BUILD_TYPE=Release && \
-  make all && \
-  make install && \
-  popd && popd && \
-  ldconfig && \
   # Deploy SoapyMultiSDR
   git clone https://github.com/pothosware/SoapyMultiSDR.git /src/SoapyMultiSDR && \
   pushd /src/SoapyMultiSDR && \
@@ -317,15 +221,6 @@ RUN set -x && \
   make all && \
   make test && \
   make install && \
-  popd && popd && \
-  ldconfig && \
-  # Deploy libmirisdr-4
-  git clone https://github.com/f4exb/libmirisdr-4 /src/libmirisdr-4 && \
-  pushd /src/libmirisdr-4 && \
-  mkdir -p /src/libmirisdr-4/build && \
-  pushd /src/libmirisdr-4/build && \
-  cmake ../ && \
-  VERBOSE=1 make install && \
   popd && popd && \
   ldconfig && \
   # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
