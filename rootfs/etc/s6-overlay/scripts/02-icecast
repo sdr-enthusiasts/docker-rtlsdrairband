@@ -42,7 +42,8 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 			exit 1
 		fi
 	fi
-        mkdir -p -m 0777 /var/log/icecast2
+        mkdir -p /var/log/icecast2
+		chmod 0777 /var/log/icecast2
         chmod a=rwx /var/log/icecast2
 else
 	echo "Icecast disabled. Please make sure a custom rtl_airband.conf file is provided."
