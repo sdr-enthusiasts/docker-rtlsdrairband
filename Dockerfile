@@ -224,7 +224,7 @@ RUN set -x && \
   popd && popd && \
   ldconfig && \
   # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
-  git clone https://github.com/charlie-foxtrot/RTLSDR-Airband.git /opt/rtlsdr-airband && \
+  git clone https://github.com/rtl-airband/RTLSDR-Airband.git /opt/rtlsdr-airband && \
   pushd /opt/rtlsdr-airband && \
   # fix build by removing -Wall  from CFLAGS in CMakeLists.txt
   sed -i 's/-Wall -Wextra/-Wno-error/g' CMakeLists.txt && \
