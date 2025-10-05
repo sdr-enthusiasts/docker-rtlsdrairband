@@ -118,7 +118,7 @@ RUN set -x && \
   git clone https://github.com/Nuand/bladeRF.git /src/bladeRF && \
   pushd /src/bladeRF && \
   BRANCH_BLADERF=$(git tag --sort="creatordate" | grep -P '^[\d\.]+$' | tail -1) && \
-  git checkout "$BRANCH_BLADERF" && \
+  git reset --hard "$BRANCH_BLADERF" && \
   mkdir -p /src/bladeRF/build && \
   pushd /src/bladeRF/build && \
   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DINSTALL_UDEV_RULES=ON ../ && \
@@ -140,7 +140,7 @@ RUN set -x && \
   git clone https://github.com/mossmann/hackrf.git /src/hackrf && \
   pushd /src/hackrf && \
   BRANCH_HACKRF=$(git tag --sort="creatordate" | grep -P '^v[\d\.]+$' | tail -1) && \
-  git checkout "$BRANCH_HACKRF" && \
+  git reset --hard "$BRANCH_HACKRF" && \
   mkdir -p /src/hackrf/host/build && \
   pushd /src/hackrf/host/build && \
   cmake ../ -DCMAKE_BUILD_TYPE=Release && \
@@ -156,7 +156,7 @@ RUN set -x && \
   # from his home computer. I can't find a commit where those were deleted so I suspect it was kind of dev branch?
   # Use the current "latest" master branch for now.
   # BRANCH_LIMESUITE=$(git tag --sort="creatordate" | tail -1) && \
-  # git checkout "$BRANCH_LIMESUITE" && \
+  # git reset --hard "$BRANCH_LIMESUITE" && \
   mkdir -p /src/LimeSuite/build && \
   pushd /src/LimeSuite/build && \
   cmake ../ -DCMAKE_BUILD_TYPE=Release && \
@@ -168,7 +168,7 @@ RUN set -x && \
   git clone https://github.com/pothosware/SoapyRemote.git /src/SoapyRemote && \
   pushd /src/SoapyRemote && \
   BRANCH_SOAPYREMOTE=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYREMOTE" && \
+  git reset --hard "$BRANCH_SOAPYREMOTE" && \
   mkdir -p /src/SoapyRemote/build && \
   pushd /src/SoapyRemote/build && \
   cmake ../ -DCMAKE_BUILD_TYPE=Release && \
@@ -180,7 +180,7 @@ RUN set -x && \
   git clone https://github.com/pothosware/SoapyBladeRF.git /src/SoapyBladeRF && \
   pushd /src/SoapyBladeRF && \
   BRANCH_SOAPYBLADERF=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYBLADERF" && \
+  git reset --hard "$BRANCH_SOAPYBLADERF" && \
   mkdir -p /src/SoapyBladeRF/build && \
   pushd /src/SoapyBladeRF/build && \
   cmake ../ -DCMAKE_BUILD_TYPE=Release && \
@@ -192,7 +192,7 @@ RUN set -x && \
   git clone https://github.com/pothosware/SoapyHackRF.git /src/SoapyHackRF && \
   pushd /src/SoapyHackRF && \
   BRANCH_SOAPYHACKRF=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYHACKRF" && \
+  git reset --hard "$BRANCH_SOAPYHACKRF" && \
   mkdir -p /src/SoapyHackRF/build && \
   pushd /src/SoapyHackRF/build && \
   cmake ../ -DCMAKE_BUILD_TYPE=Release && \
@@ -204,7 +204,7 @@ RUN set -x && \
   git clone https://github.com/pothosware/SoapyPlutoSDR.git /src/SoapyPlutoSDR && \
   pushd /src/SoapyPlutoSDR && \
   BRANCH_SOAPYPLUTOSDR=$(git tag --sort="creatordate" | tail -1) && \
-  git checkout "$BRANCH_SOAPYPLUTOSDR" && \
+  git reset --hard "$BRANCH_SOAPYPLUTOSDR" && \
   mkdir -p /src/SoapyPlutoSDR/build && \
   pushd /src/SoapyPlutoSDR/build && \
   cmake ../ -DCMAKE_BUILD_TYPE=Release && \
@@ -227,7 +227,7 @@ RUN set -x && \
   git clone https://github.com/rtl-airband/RTLSDR-Airband.git /opt/rtlsdr-airband && \
   pushd /opt/rtlsdr-airband && \
   BRANCH_RTL_AIRBAND=$(git tag | tail -1) && \
-  git checkout "$BRANCH_RTL_AIRBAND" && \
+  git reset --hard "$BRANCH_RTL_AIRBAND" && \
   # fix build by removing -Wall  from CFLAGS in CMakeLists.txt
   sed -i 's/-Wall -Wextra/-Wno-error/g' CMakeLists.txt && \
   sed -i 's/set (CMAKE_COMPILE_WARNING_AS_ERROR ON)/set (CMAKE_COMPILE_WARNING_AS_ERROR OFF)/g' CMakeLists.txt && \
