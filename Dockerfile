@@ -226,11 +226,11 @@ RUN set -x && \
   # Get rtl_airband source (compiled on first run via /etc/cont-init.d/01-build-rtl_airband)
   git clone https://github.com/rtl-airband/RTLSDR-Airband.git /opt/rtlsdr-airband && \
   pushd /opt/rtlsdr-airband && \
+  BRANCH_RTL_AIRBAND=$(git tag | tail -1) && \
+  git checkout "$BRANCH_RTL_AIRBAND" && \
   # fix build by removing -Wall  from CFLAGS in CMakeLists.txt
   sed -i 's/-Wall -Wextra/-Wno-error/g' CMakeLists.txt && \
   sed -i 's/set (CMAKE_COMPILE_WARNING_AS_ERROR ON)/set (CMAKE_COMPILE_WARNING_AS_ERROR OFF)/g' CMakeLists.txt && \
-  BRANCH_RTL_AIRBAND=$(git tag | tail -1) && \
-  git checkout "$BRANCH_RTL_AIRBAND" && \
   echo "$BRANCH_RTL_AIRBAND" > /CONTAINER_VERSION && \
   popd && \
   # Clean up
