@@ -39,7 +39,7 @@ docker run \
  -e RTLSDRAIRBAND_FREQS=123.9 \
  --device-cgroup-rule 'c 189:* rwm' \
  --volume /dev/bus/usb:/dev/bus/usb:ro \
-ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest_nohealthcheck
+ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest
 ```
 
 You should obviously replace `RTLSDRAIRBAND_FREQS` with a frequency you wish to monitor.
@@ -47,13 +47,13 @@ You should obviously replace `RTLSDRAIRBAND_FREQS` with a frequency you wish to 
 ## Up-and-Running with Docker Compose
 
 ```yaml
-version: "2.0"
-
 services:
   rtlsdirairband:
-    image: ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest_nohealthcheck
+    image: ghcr.io/sdr-enthusiasts/docker-rtlsdrairband:latest
     container_name: rtlsdrairband
-    restart: always
+    restart: unless-stopped
+    healthcheck:
+      disable: true
     device_cgroup_rules:
       - "c 189:* rwm"
     volumes:
