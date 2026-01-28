@@ -56,6 +56,7 @@ jobs:
       # set build_latest to true if github.event.inputs.use_test_image is false
       build_latest: true
       docker_latest_tag: trixie-latest
+      platform_linux_arm32v7_enabled: false
       build_baseimage_test: true
       build_baseimage_url: docker-baseimage:soapy-full/docker-baseimage:trixie-soapy-full
     secrets:
