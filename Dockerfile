@@ -79,6 +79,8 @@ RUN set -x && \
     KEPT_PACKAGES+=(libncurses6) && \
     TEMP_PACKAGES+=(libncurses-dev); \
     else \
+    KEPT_PACKAGES+=(libcurl4) && \
+    TEMP_PACKAGES+=(libcurl4-openssl-dev) && \
     KEPT_PACKAGES+=(mime-support) && \
     KEPT_PACKAGES+=(libncurses5) && \
     TEMP_PACKAGES+=(libncurses5-dev); \
