@@ -42,5 +42,6 @@ jobs:
       build_latest: ${{ github.event.inputs.use_test_image == 'false' || github.event.inputs.use_test_image == '' }}
       build_baseimage_test: ${{ github.event.inputs.use_test_image == 'true' }}
       build_baseimage_url: :soapy-full/:soapy-full-test-pr
+      platform_linux_arm32v7_enabled: false
     secrets:
       ghcr_token: ${{ secrets.GITHUB_TOKEN }}
