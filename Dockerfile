@@ -1,5 +1,9 @@
 FROM ghcr.io/sdr-enthusiasts/docker-baseimage:soapy-full
 
+# ICECAST_ADMIN_PASSWORD is a placeholder default that the user overrides with
+# their own Icecast admin password at run time. Supplying it via the environment
+# is inherent to how this image is configured, so DL3064 is not actionable here.
+# hadolint ignore=DL3064
 ENV BRANCH_RTLSDR="ed0317e6a58c098874ac58b769cf2e609c18d9a5" \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     ## Both services
