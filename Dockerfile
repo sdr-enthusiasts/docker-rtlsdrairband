@@ -283,4 +283,4 @@ RUN set -x && \
 ENTRYPOINT [ "/init" ]
 
 # Add healthcheck
-HEALTHCHECK --start-period=300s --interval=300s CMD /scripts/healthcheck.sh
+HEALTHCHECK --start-period=300s --interval=300s CMD ["/scripts/healthcheck.sh"]
