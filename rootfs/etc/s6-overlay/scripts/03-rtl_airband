@@ -32,7 +32,7 @@ if [ -z "$RTLSDRAIRBAND_CUSTOMCONFIG" ]; then
 
 	if [ -z "${RTLSDRAIRBAND_FREQS}" ]; then
 		echo "Error! Frequency not set. Please set RTLSDRAIRBAND_FREQS. See https://github.com/fredclausen/docker-rtlsdrairband#rtlsdr-airband for details. Aborting!"
-		exit 1
+		exit 78
 	fi
 
 	if [ "$RTLSDRAIRBAND_MODE" = "scan" ]; then
@@ -76,7 +76,7 @@ else
 		echo "rtlsdr-airband custom config provided. Ignoring RTLSDRBAND config options"
 	else
 		echo "rtlsdr-airband custom config option set but file not found. Aborting."
-		exit 1
+		exit 78
 	fi
 fi
 

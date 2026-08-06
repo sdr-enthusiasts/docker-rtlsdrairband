@@ -39,7 +39,7 @@ if [ -z "${ICECAST_DISABLE}" ]; then
 			echo "Custom config provided. Ignoring Icecast environment variables"
 		else
 			echo "Icecast custom config option set but file not found. Aborting."
-			exit 1
+			exit 78
 		fi
 	fi
         mkdir -p /var/log/icecast2
