@@ -69,7 +69,6 @@ RUN set -x && \
     KEPT_PACKAGES+=(libusb-1.0-0) && \
     TEMP_PACKAGES+=(libusb-1.0-0-dev) && \
     # packages for icecast
-    KEPT_PACKAGES+=(libxml2) && \
     TEMP_PACKAGES+=(libxml2-dev) && \
     KEPT_PACKAGES+=(libxslt1.1) && \
     TEMP_PACKAGES+=(libxslt1-dev) && \
@@ -78,19 +77,18 @@ RUN set -x && \
     # distro="$ID" && \
     # version="$VERSION_ID" && \
     codename="$VERSION_CODENAME" && \
-    if [[ "$codename" == "trixie" ]]; then \
-    KEPT_PACKAGES+=(libcurl4t64) && \
-    TEMP_PACKAGES+=(libcurl4-openssl-dev) && \
-    KEPT_PACKAGES+=(libncurses6) && \
-    TEMP_PACKAGES+=(libncurses-dev); \
-    else \
+    if [[ "$codename" == "bookworm" ]]; then \
     KEPT_PACKAGES+=(libcurl4) && \
     TEMP_PACKAGES+=(libcurl4-openssl-dev) && \
     KEPT_PACKAGES+=(mime-support) && \
     KEPT_PACKAGES+=(libncurses5) && \
     TEMP_PACKAGES+=(libncurses5-dev); \
+    else \
+    KEPT_PACKAGES+=(libcurl4t64) && \
+    TEMP_PACKAGES+=(libcurl4-openssl-dev) && \
+    KEPT_PACKAGES+=(libncurses6) && \
+    TEMP_PACKAGES+=(libncurses-dev); \
     fi && \
-    KEPT_PACKAGES+=(libtecla1) && \
     TEMP_PACKAGES+=(libtecla-dev) && \
     KEPT_PACKAGES+=(libedit2) && \
     TEMP_PACKAGES+=(libedit-dev) && \
@@ -117,19 +115,35 @@ RUN set -x && \
     KEPT_PACKAGES+=(net-tools) && \
     # install first round of packages
     apt-get update && \
+    # Runtime library packages are renamed with Debian releases (soname bumps), so
+    # resolve the one each -dev package depends on instead of naming a version.
+    runtime_pkg() { \
+    p="$(apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances "$1" | sed -nE "s/^ *Depends: ($2)\$/\1/p" | head -n1)"; \
+    if [ -z "$p" ]; then echo "no runtime package matching $2 for $1" >&2; return 1; fi; \
+    echo "$p"; \
+    } && \
+    KEPT_PACKAGES+=("$(runtime_pkg libxml2-dev 'libxml2(-[0-9]+)?')") && \
+    KEPT_PACKAGES+=("$(runtime_pkg libtecla-dev 'libtecla1(t64)?')") && \
     apt-get install -y --no-install-recommends \
     ${KEPT_PACKAGES[@]} \
     ${TEMP_PACKAGES[@]} \
     && \
-    # icecast install
-    # sh -c "echo deb-src http://download.opensuse.org/repositories/multimedia:/xiph/Debian_9.0/ ./ >>/etc/apt/sources.list.d/icecast.list" && \
-    # curl -s --location http://icecast.org/multimedia-obs.key | apt-key add - && \
-    KEPT_PACKAGES+=(icecast2) && \
+    # icecast2: Debian forky dropped icecast2 from testing (it is still in
+    # unstable). Where the release has no installable icecast2, take just that
+    # package from unstable, pinned so nothing else comes from there, then remove
+    # the unstable source again. Stable is unchanged, and this stops applying
+    # once the release ships icecast2 again.
+    icecast_pkg=icecast2 && \
+    icecast_candidate="$(apt-cache policy icecast2 | sed -n 's/^ *Candidate: //p')" && \
+    if [ -z "$icecast_candidate" ] || [ "$icecast_candidate" = "(none)" ]; then \
+    printf 'Types: deb\nURIs: http://deb.debian.org/debian\nSuites: sid\nComponents: main\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n' > /etc/apt/sources.list.d/icecast2-sid.sources && \
+    printf 'Package: *\nPin: release n=sid\nPin-Priority: 1\n' > /etc/apt/preferences.d/icecast2-sid && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ${KEPT_PACKAGES[@]} \
-    ${TEMP_PACKAGES[@]} \
-    && \
+    icecast_pkg=icecast2/sid; \
+    fi && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "$icecast_pkg" && \
+    rm -f /etc/apt/sources.list.d/icecast2-sid.sources /etc/apt/preferences.d/icecast2-sid && \
+    apt-get update && \
     mkdir -p /etc/icecast2/logs && \
     chown -R icecast2 /etc/icecast2 && \
     # Deploy bladeRF
@@ -139,7 +153,10 @@ RUN set -x && \
     git reset --hard "$BRANCH_BLADERF" && \
     mkdir -p /src/bladeRF/build && \
     pushd /src/bladeRF/build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DINSTALL_UDEV_RULES=ON ../ && \
+    # glibc 2.43 (forky) makes strstr() return const for a const argument, which
+    # bladeRF-cli's tecla.c assigns to a plain char *, and upstream builds with
+    # -Werror; keep that one diagnostic a warning until upstream fixes it.
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DINSTALL_UDEV_RULES=ON -DCMAKE_C_FLAGS="-Wno-error=discarded-qualifiers" ../ && \
     make all && \
     make install && \
     popd && popd && \
