@@ -2,6 +2,7 @@
 # shellcheck shell=bash
 
 set -e
+set -o pipefail
 
 # Check to see if rtl_airband exists
 if [[ -e "/usr/local/bin/rtl_airband" ]]; then
