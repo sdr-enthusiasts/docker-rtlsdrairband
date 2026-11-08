@@ -12,6 +12,11 @@ on:
         type: boolean
         description: "Use base image testpr"
         default: false
+      base_variant:
+        required: false
+        type: string
+        description: "Debian codename to build on the next-release base images (e.g. forky). Blank builds on stable."
+        default: ""
 
 jobs:
   workflow-dispatch:
@@ -27,9 +32,11 @@ jobs:
         env:
           INPUTS_REASON: ${{ github.event.inputs.reason }}
           INPUTS_USE_TEST_IMAGE: ${{ github.event.inputs.use_test_image }}
+          INPUTS_BASE_VARIANT: ${{ github.event.inputs.base_variant }}
         run: |
           echo "Workflow dispatch reason: $INPUTS_REASON"
           echo "Use test image: $INPUTS_USE_TEST_IMAGE"
+          echo "Base variant: ${INPUTS_BASE_VARIANT:-none (stable)}"
 
   deploy:
     name: Deploy
@@ -43,5 +50,6 @@ jobs:
       build_baseimage_test: ${{ github.event.inputs.use_test_image == 'true' }}
       build_baseimage_url: :soapy-full/:soapy-full-test-pr
       platform_linux_arm32v7_enabled: false
+      base_variant: ${{ github.event.inputs.base_variant }}
     secrets:
       ghcr_token: ${{ secrets.GITHUB_TOKEN }}
