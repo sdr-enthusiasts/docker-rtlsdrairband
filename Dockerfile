@@ -144,6 +144,14 @@ RUN set -x && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "$icecast_pkg" && \
     rm -f /etc/apt/sources.list.d/icecast2-sid.sources /etc/apt/preferences.d/icecast2-sid && \
     apt-get update && \
+    # Icecast 2.5 made <burst-on-connect> obsolete (<burst-size>, which the config
+    # already sets, now controls bursting on its own). Keep it for older Icecast,
+    # drop it where the installed Icecast no longer understands it.
+    icecast_version="$(dpkg-query -W -f='${Version}' icecast2)" && \
+    if dpkg --compare-versions "$icecast_version" ge 2.5; then \
+    sed -i '/<burst-on-connect>/d' /usr/local/etc/icecast.xml && \
+    ! grep -q '<burst-on-connect>' /usr/local/etc/icecast.xml; \
+    fi && \
     mkdir -p /etc/icecast2/logs && \
     chown -R icecast2 /etc/icecast2 && \
     # Deploy bladeRF
