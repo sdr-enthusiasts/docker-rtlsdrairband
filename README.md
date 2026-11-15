@@ -26,7 +26,7 @@ Thanks to [mikenye](https://github.com/mikenye) for his excellent ADSB docker co
 
 ## Required Hardware
 
-You will need at least one RTLSDR dongle, and if multiple dongles are present on the system the dongle you are using needs to have the serial number set and passed in to the container (see ENV configuration below). [Kerberos SDR](https://othernet.is/products/kerberossdr-4x-coherent-rtl-sdr) RTLSDR devices will also work with this container.
+You will need at least one RTLSDR dongle, and if multiple dongles are present on the system the dongle you are using needs to have the serial number set and passed in to the container (see ENV configuration below). Kerberos SDR RTLSDR devices will also work with this container.
 
 ## Up-and-Running with `docker run`
 
